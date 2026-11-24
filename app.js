@@ -92,7 +92,8 @@
       if (screen === 'results') resultFilter = 'review';
     }
     const takingOrReviewing = screen === 'take' || screen === 'results';
-    const questions = takingOrReviewing && attempt.mode === 'testing' ? testingBanks[attempt.testingPoolId ?? exam.id] : banks[exam?.id];
+    const testingPoolId = attempt?.testingPoolId ?? (exam?.id === 6 ? 'previousIts' : exam?.id);
+    const questions = takingOrReviewing && attempt.mode === 'testing' ? testingBanks[testingPoolId] : banks[exam?.id];
     view = { screen, exam, questions, attempt };
     if (modal.open) modal.close();
     render(true);
@@ -493,6 +494,7 @@
     const { exam } = view;
     const questions = mode === 'testing' ? testingBanks[exam.id] : banks[exam.id];
     const attempt = engine.create(exam, questions, mode, state.testingOrders[exam.id]);
+    if (exam.id === 6) attempt.testingPoolId = exam.id;
     if (mode === 'testing') state.testingOrders[exam.id] = attempt.order;
     state.attempts[exam.id] = attempt;
     persist(attempt);
