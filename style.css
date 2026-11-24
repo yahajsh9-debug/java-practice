@@ -179,6 +179,7 @@ select {
   background-repeat: no-repeat;
 }
 .setup-panel .mode-description { margin: 16px 0; }
+.simulation-title { margin-top: 18px; }
 .setup-facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-bottom: 12px; }
 .setup-facts div { padding: 12px 14px; border: 1px solid #dae8e3; border-radius: 9px; background: #f3f8f6; }
 .setup-facts dd { color: #234d41; font-size: clamp(1rem, 2.65vw, 1.4rem); font-weight: 750; }
@@ -301,6 +302,11 @@ code, pre, .bank-tile, .code-select, .code-slot {
 .answer-summary code, .feedback code { font-size: .93em; white-space: pre-wrap; }
 .result-blank { background: #345664; padding: 2px 4px; border-radius: 3px; }
 .empty-result { padding: 16px; }
+.domain-results { margin-top: 14px; padding: 18px 20px; }
+.domain-results ul { padding: 0; margin: 11px 0 0; list-style: none; }
+.domain-results li { display: flex; justify-content: space-between; gap: 12px; padding: 7px 0; }
+.domain-results li + li { border-top: 1px solid var(--line); }
+.domain-results strong { white-space: nowrap; }
 
 @media (max-width: 680px) {
   main { width: calc(100% - 26px); margin-top: 19px; }

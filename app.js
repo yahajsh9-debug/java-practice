@@ -1,6 +1,7 @@
 (() => {
   const exams = window.practiceExams;
   const banks = window.practiceBanks;
+  const testingBanks = window.practiceTestingBanks;
   const engine = window.practiceEngine;
   const main = document.querySelector('#main');
   const modal = document.querySelector('#confirmation');
@@ -79,7 +80,9 @@
       if (screen === 'setup') mode = 'training';
       if (screen === 'results') resultFilter = 'review';
     }
-    view = { screen, exam, questions: banks[exam?.id], attempt };
+    const takingOrReviewing = screen === 'take' || screen === 'results';
+    const questions = takingOrReviewing && attempt.mode === 'testing' ? testingBanks[exam.id] : banks[exam?.id];
+    view = { screen, exam, questions, attempt };
     if (modal.open) modal.close();
     render(true);
   }
@@ -107,7 +110,7 @@
           <h3>${exam.title}</h3>
           <p>${exam.subtitle}</p>
         </div>
-        <div class="exam-meta"><span>${count} questions</span>${status}</div>
+        <div class="exam-meta"><span>${count} ${exam.testingSize ? 'Training questions' : 'questions'}</span>${exam.testingSize ? `<span>${exam.testingSize} per test</span>` : ''}${status}</div>
         <a class="button secondary exam-action" aria-label="Open ${exam.title}" href="#exam/${exam.id}">${saved ? 'Open exam' : 'Start'}</a>
       </article>`;
     }).join('');
@@ -146,7 +149,9 @@
       ${storageNotice()}
       <div class="start-cards ${saved ? 'has-saved' : ''}">
         <article class="surface start-card">
-          <div><h2>New attempt</h2><p>${questions.length} questions · ${exam.minutes ? 'Training or Testing' : 'Training only'}</p></div>
+          <div><h2>New attempt</h2>${exam.testingSize
+            ? `<p>Training · ${questions.length} questions</p><p>${exam.simulation ? 'ITS Java simulation' : 'Testing'} · ${exam.testingSize} randomly drawn from ${testingBanks[exam.id].length}</p>`
+            : `<p>${questions.length} questions · Training only</p>`}</div>
           <a class="button primary" href="#setup/${exam.id}">New Test</a>
         </article>
         ${saved}
@@ -157,15 +162,24 @@
   function setupFacts() {
     const { exam, questions } = view;
     const training = mode === 'training';
-    return `<p class="mode-description">${training
+    const simulation = !training && exam.simulation;
+    return `${simulation ? '<h2 class="simulation-title">ITS Java Certification Simulation</h2>' : ''}<p class="mode-description">${training
       ? 'Check each answer for immediate feedback. Missed questions return after about six intervening questions, or sooner near the end.'
-      : 'Work against the clock with shuffled questions. Correct answers and explanations appear after submission.'}</p>
+      : `${exam.testingSize} questions are randomly drawn from ${testingBanks[exam.id].length}. ${simulation
+        ? 'Review flagged and unanswered items in the exam summary before submitting. The timer keeps running if you leave or reload.'
+        : 'Correct answers and explanations appear after submission.'}`}</p>
       <dl class="setup-facts">
-        <div><dt>Questions</dt><dd>${questions.length}</dd></div>
+        <div><dt>Questions</dt><dd>${training ? questions.length : exam.testingSize}</dd></div>
         <div><dt>Time allowed</dt><dd>${training ? 'Unlimited' : `${exam.minutes} min`}</dd></div>
-        <div><dt>${training ? 'Scoring' : 'Passing score'}</dt><dd>${training ? 'First answers' : `${engine.passMark} / 1,000`}</dd></div>
+        <div><dt>${training ? 'Scoring' : simulation ? 'Practice target' : 'Passing score'}</dt><dd>${training ? 'First answers' : `${engine.passMark} / 1,000`}</dd></div>
       </dl>
-      <p class="muted small">Each question counts once. For code completion, fill every blank correctly to earn the point.</p>`;
+      <p class="muted small">Each question counts once. For code completion, fill every blank correctly to earn the point.</p>
+      ${simulation ? '<p class="small">The timer starts when you select Start Exam. Answers and explanations appear after submission.</p>' : ''}`;
+  }
+
+  function updateSetup() {
+    document.querySelector('#setup-facts').innerHTML = setupFacts();
+    document.querySelector('[data-action="start"]').textContent = mode === 'testing' && view.exam.simulation ? 'Start Exam' : 'Start Test';
   }
 
   function renderSetup() {
@@ -297,9 +311,9 @@
       : `${question.code ? codeBlock(question.code) : ''}${radioOptions(question, card)}`;
     main.innerHTML = `<div class="quiz">
       <div class="quiz-top">
-        <div><p class="eyebrow">${exam.title}</p><h1>${labels[attempt.mode]} attempt</h1></div>
+        <div><p class="eyebrow">${exam.title}</p><h1>${attempt.simulation ? 'ITS Java Certification Simulation' : `${labels[attempt.mode]} attempt`}</h1></div>
         <div class="quiz-status">${training ? '<span class="mode-pill">Untimed</span>' : `<div class="clock" aria-label="Time remaining"><span>Time remaining</span><strong id="timer">${formatClock(engine.remaining(attempt))}</strong></div>`}
-          <button class="secondary" data-action="overview">Overview</button></div>
+          <button class="secondary" data-action="overview">${attempt.simulation ? 'Exam Summary' : 'Overview'}</button></div>
       </div>
       ${storageNotice()}
       <div class="surface question-card">
@@ -323,7 +337,7 @@
           <button class="primary" data-action="next">${attempt.current === attempt.cards.length - 1 ? 'Finish' : 'Next'}</button>
         </div>
       </div>
-      <div class="quiz-footer"><button class="text-button" data-action="submit">Submit Exam</button></div>
+      ${attempt.simulation ? '' : '<div class="quiz-footer"><button class="text-button" data-action="submit">Submit Exam</button></div>'}
     </div>`;
     updateQuiz();
   }
@@ -376,11 +390,12 @@
     }).join('');
     main.innerHTML = `<div class="narrow results">
       ${backLink('Exam overview', destination('exam', exam.id))}
-      <div class="page-intro"><p class="eyebrow">${exam.title} · ${labels[attempt.mode]}</p><h1>Exam results</h1>
+      <div class="page-intro"><p class="eyebrow">${exam.title} · ${attempt.simulation ? 'ITS Java Simulation' : labels[attempt.mode]}</p><h1>Exam results</h1>
       ${attempt.expired ? '<p>Time expired and your answers were submitted.</p>' : ''}</div>
       <section class="surface result-summary" aria-label="Score summary">
-        <div class="score"><span>${training ? 'First-pass score' : 'Score'}</span><strong>${result.score}<small> / 1,000</small></strong>
-          ${training ? '' : `<span class="status-tag ${result.passed ? 'correct' : 'incorrect'}">${result.passed ? 'Passed' : 'Below passing score'}</span>`}</div>
+        <div class="score"><span>${training ? 'First-pass score' : attempt.simulation ? 'Practice score' : 'Score'}</span><strong>${result.score}<small> / 1,000</small></strong>
+          ${training ? '' : `<span class="status-tag ${result.passed ? 'correct' : 'incorrect'}">${attempt.simulation
+            ? (result.passed ? 'Practice target met' : 'Below practice target') : (result.passed ? 'Passed' : 'Below passing score')}</span>`}</div>
         <dl class="result-stats">
           <div><dt>Correct</dt><dd class="text-correct">${result.correct}</dd></div>
           <div><dt>Incorrect</dt><dd class="text-incorrect">${result.incorrect}</dd></div>
@@ -388,6 +403,7 @@
           ${training ? `<div><dt>Fixed in review</dt><dd class="text-correct">${result.recovered}</dd></div>` : ''}
         </dl>
       </section>
+      ${attempt.simulation ? domainResults(result.items) : ''}
       <div class="review-heading"><h2>Review answers</h2>
         <div class="filter-group" aria-label="Filter answers">
           <button class="secondary" data-action="filter" data-filter="review" aria-pressed="${resultFilter === 'review'}">Needs review</button>
@@ -398,8 +414,17 @@
     </div>`;
   }
 
+  function domainResults(items) {
+    const rows = window.itsJavaDomains.map((name, group) => {
+      const questions = items.filter(item => item.question.group === group);
+      const correct = questions.filter(item => item.result === 'correct').length;
+      return `<li><span>${name}</span><strong>${correct} / ${questions.length} correct</strong></li>`;
+    }).join('');
+    return `<section class="surface domain-results"><h2>Performance by topic</h2><ul>${rows}</ul></section>`;
+  }
+
   function render(focus = false) {
-    header.hidden = view.screen !== 'take';
+    header.hidden = view.screen !== 'take' || view.attempt.simulation;
     if (view.screen === 'home') renderHome();
     if (view.screen === 'exam') renderExam();
     if (view.screen === 'setup') renderSetup();
@@ -425,7 +450,11 @@
       return `<button class="secondary overview-item" data-action="jump" data-index="${index}" ${index === attempt.current ? 'aria-current="step"' : ''}>
         <strong>${card.retry ? `Review ${original}` : `Q${original}`}</strong><span>${status}</span></button>`;
     }).join('');
-    dialog('Question overview', `<p>${progressLabel(progress)} · ${progress.marked} marked for review</p><div class="overview-grid">${list}</div>`, '<button class="secondary" data-action="close">Close</button>');
+    const unanswered = attempt.simulation ? `${progress.total - progress.answered} unanswered · ` : '';
+    const details = `${progressLabel(progress)} · ${unanswered}${progress.marked} marked for review`;
+    dialog(attempt.simulation ? 'Exam Summary' : 'Question overview', `<p>${details}</p><div class="overview-grid">${list}</div>`,
+      attempt.simulation ? '<button class="secondary" data-action="close">Keep working</button><button class="primary" data-action="finish-from-summary">Finish Exam</button>'
+        : '<button class="secondary" data-action="close">Close</button>');
   }
 
   function openSubmit() {
@@ -439,7 +468,8 @@
   }
 
   function startAttempt() {
-    const { exam, questions } = view;
+    const { exam } = view;
+    const questions = mode === 'testing' ? testingBanks[exam.id] : banks[exam.id];
     const attempt = engine.create(exam, questions, mode, state.testingOrders[exam.id]);
     if (mode === 'testing') state.testingOrders[exam.id] = attempt.order;
     state.attempts[exam.id] = attempt;
@@ -496,7 +526,8 @@
     if (attempt.current < attempt.cards.length - 1) move(attempt.current + 1);
     else {
       if (skip) renderQuiz();
-      openSubmit();
+      if (attempt.simulation) openOverview();
+      else openSubmit();
     }
   }
 
@@ -579,7 +610,7 @@
     if (syncClock()) return;
     if (control.id === 'mode-select') {
       mode = control.value;
-      document.querySelector('#setup-facts').innerHTML = setupFacts();
+      updateSetup();
     } else if (control.name === 'answer') setAnswer(0, Number(control.value));
     else if (control.classList.contains('code-select')) setAnswer(Number(control.dataset.slot), control.value === '' ? null : Number(control.value));
   });
@@ -615,6 +646,11 @@
   modal.addEventListener('click', event => {
     const control = event.target.closest('[data-action]');
     if (!control || syncClock()) return;
+    if (control.dataset.action === 'finish-from-summary') {
+      modal.close();
+      openSubmit();
+      return;
+    }
     modal.close();
     if (control.dataset.action === 'confirm-submit') submitAttempt();
     if (control.dataset.action === 'replace') startAttempt();

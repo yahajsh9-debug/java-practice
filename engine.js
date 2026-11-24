@@ -22,12 +22,11 @@ window.practiceEngine = (() => {
     return order;
   }
 
-  function correctPositions(questions) {
+  function correctPositions(questions, order) {
     const positions = new Map();
-    for (const size of new Set(questions.filter(question => !question.type).map(question => question.choices.length))) {
-      const indices = questions.flatMap((question, index) => (
-        !question.type && question.choices.length === size && Number.isInteger(question.answer) ? [index] : []
-      ));
+    const multipleChoice = order.filter(index => !questions[index].type && Number.isInteger(questions[index].answer));
+    for (const size of new Set(multipleChoice.map(index => questions[index].choices.length))) {
+      const indices = multipleChoice.filter(index => questions[index].choices.length === size);
       const slotCycle = shuffled(Array.from({ length: size }, (_, index) => index));
       const slots = shuffled(indices.map((_, index) => slotCycle[index % size]));
       indices.forEach((questionIndex, index) => positions.set(questionIndex, slots[index]));
@@ -47,21 +46,52 @@ window.practiceEngine = (() => {
     };
   }
 
-  function create(exam, questions, mode, previousTestingOrder, now = Date.now()) {
-    let order = questions.map((_, index) => index);
-    if (mode === 'testing') {
-      order = shuffled(order);
-      if (order.length > 1 && order.every((value, index) => value === previousTestingOrder?.[index])) {
-        const next = 1 + Math.floor(Math.random() * (order.length - 1));
-        [order[0], order[next]] = [order[next], order[0]];
-      }
-    } else {
-      order.sort((a, b) => questions[a].difficulty - questions[b].difficulty);
+  function testingOrder(exam, questions, previousOrder) {
+    const shuffledIndices = shuffled(questions.map((_, index) => index));
+    const size = Math.min(exam.testingSize ?? questions.length, questions.length);
+    let buckets = [{ eligible: shuffledIndices, count: size, picked: [] }];
+    if (exam.testingGroups) {
+      const groups = exam.testingGroups.map((count, group) => ({
+        eligible: shuffledIndices.filter(index => questions[index].group === group), count, picked: []
+      }));
+      if (groups.every(bucket => bucket.eligible.length >= bucket.count)) buckets = groups;
     }
-    const positions = correctPositions(questions);
+
+    for (const format of shuffled([undefined, 'dropdown', 'wordBank'])) {
+      const bucket = shuffled(buckets).find(item => item.picked.length < item.count && item.eligible.some(index => questions[index].type === format));
+      if (bucket) bucket.picked.push(bucket.eligible.find(index => questions[index].type === format));
+    }
+    for (const bucket of buckets) {
+      const remainder = bucket.eligible.filter(index => !bucket.picked.includes(index));
+      bucket.picked.push(...remainder.slice(0, bucket.count - bucket.picked.length));
+    }
+
+    const previous = new Set(previousOrder);
+    if (previous.size === size && buckets.every(bucket => bucket.picked.every(index => previous.has(index)))) {
+      for (const bucket of shuffled(buckets)) {
+        const replacement = bucket.eligible.find(index => !previous.has(index) && bucket.picked.some(picked => questions[picked].type === questions[index].type));
+        if (replacement === undefined) continue;
+        const position = bucket.picked.findIndex(index => questions[index].type === questions[replacement].type);
+        bucket.picked[position] = replacement;
+        break;
+      }
+    }
+
+    const order = shuffled(buckets.flatMap(bucket => bucket.picked));
+    if (order.length > 1 && order.every((value, index) => value === previousOrder?.[index])) {
+      [order[0], order[1]] = [order[1], order[0]];
+    }
+    return order;
+  }
+
+  function create(exam, questions, mode, previousTestingOrder, now = Date.now()) {
+    const order = mode === 'testing' ? testingOrder(exam, questions, previousTestingOrder)
+      : questions.map((_, index) => index).sort((a, b) => questions[a].difficulty - questions[b].difficulty);
+    const positions = correctPositions(questions, order);
     return {
       examId: exam.id,
       mode,
+      simulation: mode === 'testing' && exam.simulation === true,
       order,
       cards: order.map(index => newCard(questions[index], index, positions.get(index))),
       current: 0,
