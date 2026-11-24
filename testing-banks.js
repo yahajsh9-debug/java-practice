@@ -152,7 +152,8 @@ window.practiceTestingBanks = (() => {
       0,
       4,
       4
-    ]
+    ],
+    "6": []
   };
   const additions = {
     1: [
@@ -6872,11 +6873,2057 @@ window.practiceTestingBanks = (() => {
         answer: 2,
         explanation: "The assignment is missing a semicolon."
       }
+    ],
+    6: [
+      {
+        group: 0,
+        topic: "Traditional entry point",
+        difficulty: 1,
+        prompt: "Complete the traditional Java 8 entry point for Record685, which prints the supply ledger 686 total.",
+        type: "dropdown",
+        code: "public class Record685 {\n    public {{0}} void main({{1}} args) {\n        System.out.println(685 + 6);\n    }\n}",
+        slots: [{"choices":["static","abstract","private"],"answer":0},{"choices":["String","int[]","String[]"],"answer":2}],
+        explanation: "The standard Java 8 launcher expects public static void main with an array of String arguments."
+      },
+      {
+        group: 0,
+        topic: "Command-line arguments",
+        difficulty: 2,
+        prompt: "Read every argument for the institute roster 687 routine in the order supplied.",
+        type: "wordBank",
+        code: "String[] args = {\"CODEI9\", \"2\", \"686\"};\nString sequence = \"\";\nfor (int i = 0; i < {{0}}; i++) {\n    sequence += {{1}};\n}",
+        bank: ["args.length - 1","args[0]","args.length()","args.charAt(i)","args.length","args[i]"],
+        slots: [{"answer":4},{"answer":5}],
+        explanation: "Use the length as the exclusive limit and retrieve each argument at the current index."
+      },
+      {
+        group: 0,
+        topic: "Scanner tokens and lines",
+        difficulty: 2,
+        prompt: "In the locker assignment 688 record, what is the remainder of the line? Brackets show its exact boundaries.",
+        code: "Scanner scanner = new Scanner(\"CODEIA7 687   ready\");\nString code = scanner.next();\nint count = scanner.nextInt();\nString rest = scanner.nextLine();",
+        choices: ["[687   ready]","[   ready]","[ready]","[ ready]"],
+        answer: 1,
+        explanation: "nextInt reads the number. nextLine takes the remaining characters, including all three spaces."
+      },
+      {
+        group: 0,
+        topic: "Console token input",
+        difficulty: 1,
+        prompt: "Read the first workshop ticket 689 identifier as text and keep its leading zero.",
+        type: "dropdown",
+        code: "Scanner input = new Scanner(\"0688 3\");\nString identifier = input.{{0}};",
+        slots: [{"choices":["next()","nextInt()","nextLine()","hasNext()"],"answer":0}],
+        explanation: "next reads one token as a string, preserving the leading zero."
+      },
+      {
+        group: 0,
+        topic: "Scope and instance members",
+        difficulty: 2,
+        prompt: "What are local and field after reading the shipment scan 690 state?",
+        code: "class Record689 {\n    int value = 689;\n    String read() {\n        int value = 8;\n        return value + \", \" + this.value;\n    }\n}\nString result = new Record689().read();",
+        choices: ["689, 8","8, 8","689, 689","8, 689"],
+        answer: 3,
+        explanation: "The unqualified value is the local variable. this.value is the field stored in the object."
+      },
+      {
+        group: 0,
+        topic: "Javadoc tags",
+        difficulty: 1,
+        prompt: "Document the museum admission 691 method’s parameter and result.",
+        type: "dropdown",
+        code: "/**\n * Adds the museum admission 691 adjustment.\n * {{0}} count the starting amount\n * {{1}} the adjusted amount\n */\nint adjustCODEID(int count) { return count + 686; }",
+        slots: [{"choices":["@throws","@return","@param"],"answer":2},{"choices":["@param","@return","@author"],"answer":1}],
+        explanation: "@param documents a named parameter. @return describes the value the method returns."
+      },
+      {
+        group: 0,
+        topic: "Console output and line breaks",
+        difficulty: 1,
+        prompt: "Print the rental register 692 batch and its count on different lines. Use the call that ends the first line.",
+        type: "dropdown",
+        code: "String batch = \"rental register 692 691\";\nSystem.out.{{0}}(batch);\nSystem.out.{{1}}(9);",
+        slots: [{"choices":["print","append","println"],"answer":2},{"choices":["close","println","flush"],"answer":1}],
+        explanation: "println prints its argument and then ends the line. flush and close do not print the supplied count."
+      },
+      {
+        group: 0,
+        topic: "Traditional entry point",
+        difficulty: 1,
+        prompt: "Complete the traditional Java 8 entry point for Record692, which prints the clinic schedule 693 total.",
+        type: "dropdown",
+        code: "public class Record692 {\n    public {{0}} void main({{1}} args) {\n        System.out.println(692 + 5);\n    }\n}",
+        slots: [{"choices":["abstract","private","static"],"answer":2},{"choices":["int[]","String[]","String"],"answer":1}],
+        explanation: "The standard Java 8 launcher expects public static void main with an array of String arguments."
+      },
+      {
+        group: 0,
+        topic: "Command-line arguments",
+        difficulty: 2,
+        prompt: "Read every argument for the field inventory 694 routine in the order supplied.",
+        type: "wordBank",
+        code: "String[] args = {\"CODEIG\", \"10\", \"693\"};\nString sequence = \"\";\nfor (int i = 0; i < {{0}}; i++) {\n    sequence += {{1}};\n}",
+        bank: ["args.length - 1","args[0]","args.length()","args.charAt(i)","args.length","args[i]"],
+        slots: [{"answer":4},{"answer":5}],
+        explanation: "Use the length as the exclusive limit and retrieve each argument at the current index."
+      },
+      {
+        group: 0,
+        topic: "Scanner tokens and lines",
+        difficulty: 2,
+        prompt: "In the supply ledger 695 record, what is the remainder of the line? Brackets show its exact boundaries.",
+        code: "Scanner scanner = new Scanner(\"CODEIH6 694   ready\");\nString code = scanner.next();\nint count = scanner.nextInt();\nString rest = scanner.nextLine();",
+        choices: ["[694   ready]","[   ready]","[ready]","[ ready]"],
+        answer: 1,
+        explanation: "nextInt reads the number. nextLine takes the remaining characters, including all three spaces."
+      },
+      {
+        group: 0,
+        topic: "Console token input",
+        difficulty: 1,
+        prompt: "Read the first institute roster 696 identifier as text and keep its leading zero.",
+        type: "dropdown",
+        code: "Scanner input = new Scanner(\"0695 2\");\nString identifier = input.{{0}};",
+        slots: [{"choices":["next()","nextInt()","nextLine()","hasNext()"],"answer":0}],
+        explanation: "next reads one token as a string, preserving the leading zero."
+      },
+      {
+        group: 0,
+        topic: "Scope and instance members",
+        difficulty: 2,
+        prompt: "What are local and field after reading the locker assignment 697 state?",
+        code: "class Record696 {\n    int value = 696;\n    String read() {\n        int value = 7;\n        return value + \", \" + this.value;\n    }\n}\nString result = new Record696().read();",
+        choices: ["696, 7","7, 7","696, 696","7, 696"],
+        answer: 3,
+        explanation: "The unqualified value is the local variable. this.value is the field stored in the object."
+      },
+      {
+        group: 0,
+        topic: "Javadoc tags",
+        difficulty: 1,
+        prompt: "Document the workshop ticket 698 method’s parameter and result.",
+        type: "dropdown",
+        code: "/**\n * Adds the workshop ticket 698 adjustment.\n * {{0}} count the starting amount\n * {{1}} the adjusted amount\n */\nint adjustCODEIK(int count) { return count + 694; }",
+        slots: [{"choices":["@return","@param","@throws"],"answer":1},{"choices":["@return","@author","@param"],"answer":0}],
+        explanation: "@param documents a named parameter. @return describes the value the method returns."
+      },
+      {
+        group: 0,
+        topic: "Console output and line breaks",
+        difficulty: 1,
+        prompt: "Print the shipment scan 699 batch and its count on different lines. Use the call that ends the first line.",
+        type: "dropdown",
+        code: "String batch = \"shipment scan 699 698\";\nSystem.out.{{0}}(batch);\nSystem.out.{{1}}(8);",
+        slots: [{"choices":["append","println","print"],"answer":1},{"choices":["println","flush","close"],"answer":0}],
+        explanation: "println prints its argument and then ends the line. flush and close do not print the supplied count."
+      },
+      {
+        group: 0,
+        topic: "Traditional entry point",
+        difficulty: 1,
+        prompt: "Complete the traditional Java 8 entry point for Record699, which prints the rental register 700 total.",
+        type: "dropdown",
+        code: "public class Record699 {\n    public {{0}} void main({{1}} args) {\n        System.out.println(699 + 4);\n    }\n}",
+        slots: [{"choices":["private","static","abstract"],"answer":1},{"choices":["String[]","String","int[]"],"answer":0}],
+        explanation: "The standard Java 8 launcher expects public static void main with an array of String arguments."
+      },
+      {
+        group: 0,
+        topic: "Command-line arguments",
+        difficulty: 2,
+        prompt: "Read every argument for the transit manifest 701 routine in the order supplied.",
+        type: "wordBank",
+        code: "String[] args = {\"CODEIN\", \"9\", \"700\"};\nString sequence = \"\";\nfor (int i = 0; i < {{0}}; i++) {\n    sequence += {{1}};\n}",
+        bank: ["args.length - 1","args[0]","args.length()","args.charAt(i)","args.length","args[i]"],
+        slots: [{"answer":4},{"answer":5}],
+        explanation: "Use the length as the exclusive limit and retrieve each argument at the current index."
+      },
+      {
+        group: 0,
+        topic: "Scanner tokens and lines",
+        difficulty: 2,
+        prompt: "In the clinic schedule 702 record, what is the remainder of the line? Brackets show its exact boundaries.",
+        code: "Scanner scanner = new Scanner(\"CODEIO5 701   ready\");\nString code = scanner.next();\nint count = scanner.nextInt();\nString rest = scanner.nextLine();",
+        choices: ["[701   ready]","[   ready]","[ready]","[ ready]"],
+        answer: 1,
+        explanation: "nextInt reads the number. nextLine takes the remaining characters, including all three spaces."
+      },
+      {
+        group: 0,
+        topic: "Console token input",
+        difficulty: 1,
+        prompt: "Read the first field inventory 703 identifier as text and keep its leading zero.",
+        type: "dropdown",
+        code: "Scanner input = new Scanner(\"0702 10\");\nString identifier = input.{{0}};",
+        slots: [{"choices":["next()","nextInt()","nextLine()","hasNext()"],"answer":0}],
+        explanation: "next reads one token as a string, preserving the leading zero."
+      },
+      {
+        group: 0,
+        topic: "Scope and instance members",
+        difficulty: 2,
+        prompt: "What are local and field after reading the supply ledger 704 state?",
+        code: "class Record703 {\n    int value = 703;\n    String read() {\n        int value = 6;\n        return value + \", \" + this.value;\n    }\n}\nString result = new Record703().read();",
+        choices: ["703, 6","6, 6","703, 703","6, 703"],
+        answer: 3,
+        explanation: "The unqualified value is the local variable. this.value is the field stored in the object."
+      },
+      {
+        group: 0,
+        topic: "Javadoc tags",
+        difficulty: 1,
+        prompt: "Document the institute roster 705 method’s parameter and result.",
+        type: "dropdown",
+        code: "/**\n * Adds the institute roster 705 adjustment.\n * {{0}} count the starting amount\n * {{1}} the adjusted amount\n */\nint adjustCODEIR(int count) { return count + 702; }",
+        slots: [{"choices":["@param","@throws","@return"],"answer":0},{"choices":["@author","@param","@return"],"answer":2}],
+        explanation: "@param documents a named parameter. @return describes the value the method returns."
+      },
+      {
+        group: 0,
+        topic: "Console output and line breaks",
+        difficulty: 1,
+        prompt: "Print the locker assignment 706 batch and its count on different lines. Use the call that ends the first line.",
+        type: "dropdown",
+        code: "String batch = \"locker assignment 706 705\";\nSystem.out.{{0}}(batch);\nSystem.out.{{1}}(7);",
+        slots: [{"choices":["println","print","append"],"answer":0},{"choices":["flush","close","println"],"answer":2}],
+        explanation: "println prints its argument and then ends the line. flush and close do not print the supplied count."
+      },
+      {
+        group: 0,
+        topic: "Traditional entry point",
+        difficulty: 1,
+        prompt: "Complete the traditional Java 8 entry point for Record706, which prints the shipment scan 707 total.",
+        type: "dropdown",
+        code: "public class Record706 {\n    public {{0}} void main({{1}} args) {\n        System.out.println(706 + 3);\n    }\n}",
+        slots: [{"choices":["static","abstract","private"],"answer":0},{"choices":["String","int[]","String[]"],"answer":2}],
+        explanation: "The standard Java 8 launcher expects public static void main with an array of String arguments."
+      },
+      {
+        group: 0,
+        topic: "Command-line arguments",
+        difficulty: 2,
+        prompt: "Read every argument for the museum admission 708 routine in the order supplied.",
+        type: "wordBank",
+        code: "String[] args = {\"CODEIU\", \"8\", \"707\"};\nString sequence = \"\";\nfor (int i = 0; i < {{0}}; i++) {\n    sequence += {{1}};\n}",
+        bank: ["args.length - 1","args[0]","args.length()","args.charAt(i)","args.length","args[i]"],
+        slots: [{"answer":4},{"answer":5}],
+        explanation: "Use the length as the exclusive limit and retrieve each argument at the current index."
+      },
+      {
+        group: 0,
+        topic: "Scanner tokens and lines",
+        difficulty: 2,
+        prompt: "In the rental register 709 record, what is the remainder of the line? Brackets show its exact boundaries.",
+        code: "Scanner scanner = new Scanner(\"CODEIV4 708   ready\");\nString code = scanner.next();\nint count = scanner.nextInt();\nString rest = scanner.nextLine();",
+        choices: ["[708   ready]","[   ready]","[ready]","[ ready]"],
+        answer: 1,
+        explanation: "nextInt reads the number. nextLine takes the remaining characters, including all three spaces."
+      },
+      {
+        group: 0,
+        topic: "Console token input",
+        difficulty: 1,
+        prompt: "Read the first transit manifest 710 identifier as text and keep its leading zero.",
+        type: "dropdown",
+        code: "Scanner input = new Scanner(\"0709 9\");\nString identifier = input.{{0}};",
+        slots: [{"choices":["next()","nextInt()","nextLine()","hasNext()"],"answer":0}],
+        explanation: "next reads one token as a string, preserving the leading zero."
+      },
+      {
+        group: 0,
+        topic: "Scope and instance members",
+        difficulty: 2,
+        prompt: "What are local and field after reading the clinic schedule 711 state?",
+        code: "class Record710 {\n    int value = 710;\n    String read() {\n        int value = 5;\n        return value + \", \" + this.value;\n    }\n}\nString result = new Record710().read();",
+        choices: ["710, 5","5, 5","710, 710","5, 710"],
+        answer: 3,
+        explanation: "The unqualified value is the local variable. this.value is the field stored in the object."
+      },
+      {
+        group: 0,
+        topic: "Javadoc tags",
+        difficulty: 1,
+        prompt: "Document the field inventory 712 method’s parameter and result.",
+        type: "dropdown",
+        code: "/**\n * Adds the field inventory 712 adjustment.\n * {{0}} count the starting amount\n * {{1}} the adjusted amount\n */\nint adjustCODEIY(int count) { return count + 701; }",
+        slots: [{"choices":["@throws","@return","@param"],"answer":2},{"choices":["@param","@return","@author"],"answer":1}],
+        explanation: "@param documents a named parameter. @return describes the value the method returns."
+      },
+      {
+        group: 0,
+        topic: "Console output and line breaks",
+        difficulty: 1,
+        prompt: "Print the supply ledger 713 batch and its count on different lines. Use the call that ends the first line.",
+        type: "dropdown",
+        code: "String batch = \"supply ledger 713 712\";\nSystem.out.{{0}}(batch);\nSystem.out.{{1}}(6);",
+        slots: [{"choices":["print","append","println"],"answer":2},{"choices":["close","println","flush"],"answer":1}],
+        explanation: "println prints its argument and then ends the line. flush and close do not print the supplied count."
+      },
+      {
+        group: 0,
+        topic: "Traditional entry point",
+        difficulty: 1,
+        prompt: "Complete the traditional Java 8 entry point for Record713, which prints the locker assignment 714 total.",
+        type: "dropdown",
+        code: "public class Record713 {\n    public {{0}} void main({{1}} args) {\n        System.out.println(713 + 2);\n    }\n}",
+        slots: [{"choices":["abstract","private","static"],"answer":2},{"choices":["int[]","String[]","String"],"answer":1}],
+        explanation: "The standard Java 8 launcher expects public static void main with an array of String arguments."
+      },
+      {
+        group: 0,
+        topic: "Command-line arguments",
+        difficulty: 2,
+        prompt: "Read every argument for the workshop ticket 715 routine in the order supplied.",
+        type: "wordBank",
+        code: "String[] args = {\"CODEJ1\", \"7\", \"714\"};\nString sequence = \"\";\nfor (int i = 0; i < {{0}}; i++) {\n    sequence += {{1}};\n}",
+        bank: ["args.length - 1","args[0]","args.length()","args.charAt(i)","args.length","args[i]"],
+        slots: [{"answer":4},{"answer":5}],
+        explanation: "Use the length as the exclusive limit and retrieve each argument at the current index."
+      },
+      {
+        group: 0,
+        topic: "Scanner tokens and lines",
+        difficulty: 2,
+        prompt: "In the shipment scan 716 record, what is the remainder of the line? Brackets show its exact boundaries.",
+        code: "Scanner scanner = new Scanner(\"CODEJ23 715   ready\");\nString code = scanner.next();\nint count = scanner.nextInt();\nString rest = scanner.nextLine();",
+        choices: ["[715   ready]","[   ready]","[ready]","[ ready]"],
+        answer: 1,
+        explanation: "nextInt reads the number. nextLine takes the remaining characters, including all three spaces."
+      },
+      {
+        group: 0,
+        topic: "Console token input",
+        difficulty: 1,
+        prompt: "Read the first museum admission 717 identifier as text and keep its leading zero.",
+        type: "dropdown",
+        code: "Scanner input = new Scanner(\"0716 8\");\nString identifier = input.{{0}};",
+        slots: [{"choices":["next()","nextInt()","nextLine()","hasNext()"],"answer":0}],
+        explanation: "next reads one token as a string, preserving the leading zero."
+      },
+      {
+        group: 0,
+        topic: "Scope and instance members",
+        difficulty: 2,
+        prompt: "What are local and field after reading the rental register 718 state?",
+        code: "class Record717 {\n    int value = 717;\n    String read() {\n        int value = 4;\n        return value + \", \" + this.value;\n    }\n}\nString result = new Record717().read();",
+        choices: ["717, 4","4, 4","717, 717","4, 717"],
+        answer: 3,
+        explanation: "The unqualified value is the local variable. this.value is the field stored in the object."
+      },
+      {
+        group: 0,
+        topic: "Javadoc tags",
+        difficulty: 1,
+        prompt: "Document the transit manifest 719 method’s parameter and result.",
+        type: "dropdown",
+        code: "/**\n * Adds the transit manifest 719 adjustment.\n * {{0}} count the starting amount\n * {{1}} the adjusted amount\n */\nint adjustCODEJ5(int count) { return count + 709; }",
+        slots: [{"choices":["@return","@param","@throws"],"answer":1},{"choices":["@return","@author","@param"],"answer":0}],
+        explanation: "@param documents a named parameter. @return describes the value the method returns."
+      },
+      {
+        group: 0,
+        topic: "Console output and line breaks",
+        difficulty: 1,
+        prompt: "Print the clinic schedule 720 batch and its count on different lines. Use the call that ends the first line.",
+        type: "dropdown",
+        code: "String batch = \"clinic schedule 720 719\";\nSystem.out.{{0}}(batch);\nSystem.out.{{1}}(5);",
+        slots: [{"choices":["append","println","print"],"answer":1},{"choices":["println","flush","close"],"answer":0}],
+        explanation: "println prints its argument and then ends the line. flush and close do not print the supplied count."
+      },
+      {
+        group: 0,
+        topic: "Traditional entry point",
+        difficulty: 1,
+        prompt: "Complete the traditional Java 8 entry point for Record720, which prints the supply ledger 721 total.",
+        type: "dropdown",
+        code: "public class Record720 {\n    public {{0}} void main({{1}} args) {\n        System.out.println(720 + 10);\n    }\n}",
+        slots: [{"choices":["private","static","abstract"],"answer":1},{"choices":["String[]","String","int[]"],"answer":0}],
+        explanation: "The standard Java 8 launcher expects public static void main with an array of String arguments."
+      },
+      {
+        group: 0,
+        topic: "Command-line arguments",
+        difficulty: 2,
+        prompt: "Read every argument for the institute roster 722 routine in the order supplied.",
+        type: "wordBank",
+        code: "String[] args = {\"CODEJ8\", \"6\", \"721\"};\nString sequence = \"\";\nfor (int i = 0; i < {{0}}; i++) {\n    sequence += {{1}};\n}",
+        bank: ["args.length - 1","args[0]","args.length()","args.charAt(i)","args.length","args[i]"],
+        slots: [{"answer":4},{"answer":5}],
+        explanation: "Use the length as the exclusive limit and retrieve each argument at the current index."
+      },
+      {
+        group: 0,
+        topic: "Scanner tokens and lines",
+        difficulty: 2,
+        prompt: "In the locker assignment 723 record, what is the remainder of the line? Brackets show its exact boundaries.",
+        code: "Scanner scanner = new Scanner(\"CODEJ92 722   ready\");\nString code = scanner.next();\nint count = scanner.nextInt();\nString rest = scanner.nextLine();",
+        choices: ["[722   ready]","[   ready]","[ready]","[ ready]"],
+        answer: 1,
+        explanation: "nextInt reads the number. nextLine takes the remaining characters, including all three spaces."
+      },
+      {
+        group: 0,
+        topic: "Console token input",
+        difficulty: 1,
+        prompt: "Read the first workshop ticket 724 identifier as text and keep its leading zero.",
+        type: "dropdown",
+        code: "Scanner input = new Scanner(\"0723 7\");\nString identifier = input.{{0}};",
+        slots: [{"choices":["next()","nextInt()","nextLine()","hasNext()"],"answer":0}],
+        explanation: "next reads one token as a string, preserving the leading zero."
+      },
+      {
+        group: 0,
+        topic: "Scope and instance members",
+        difficulty: 2,
+        prompt: "What are local and field after reading the shipment scan 725 state?",
+        code: "class Record724 {\n    int value = 724;\n    String read() {\n        int value = 3;\n        return value + \", \" + this.value;\n    }\n}\nString result = new Record724().read();",
+        choices: ["724, 3","3, 3","724, 724","3, 724"],
+        answer: 3,
+        explanation: "The unqualified value is the local variable. this.value is the field stored in the object."
+      },
+      {
+        group: 1,
+        topic: "Integral ranges",
+        difficulty: 1,
+        prompt: "Store the institute roster 726 count exactly in the smallest listed signed integral type that can hold it.",
+        type: "dropdown",
+        code: "{{0}} count = {{1}};",
+        slots: [{"choices":["long","int","short"],"answer":0},{"choices":["2925002000","2925002000F","2925002000L"],"answer":2}],
+        explanation: "The value exceeds Integer.MAX_VALUE. A long declaration and an L-suffixed literal are needed."
+      },
+      {
+        group: 1,
+        topic: "Casting floating-point values",
+        difficulty: 1,
+        prompt: "What whole number does the locker assignment 727 produce?",
+        code: "double sample = -726.5;\nint whole = (int) sample;",
+        choices: ["-726.5","-726","-725","-727"],
+        answer: 1,
+        explanation: "The cast drops the fractional part toward zero and leaves -726."
+      },
+      {
+        group: 1,
+        topic: "Decimal parsing",
+        difficulty: 1,
+        prompt: "Convert the workshop ticket 728 text directly to a primitive double.",
+        type: "dropdown",
+        code: "String input = \"727.25\";\n{{0}} measurement = {{1}}.{{2}}(input);",
+        slots: [{"choices":["String","double","int"],"answer":1},{"choices":["Double","double","Integer"],"answer":0},{"choices":["parseInt","toString","parseDouble"],"answer":2}],
+        explanation: "Double.parseDouble accepts fractional text and returns a primitive double."
+      },
+      {
+        group: 1,
+        topic: "String formatting",
+        difficulty: 2,
+        prompt: "Write the shipment scan 729 name followed by its item count, using the decimal-integer format.",
+        type: "dropdown",
+        code: "String name = \"shipment scan 729 8\";\nint count = 728;\nString result = String.format(Locale.ROOT, \"{{0}}: {{1}}\", name, count);",
+        slots: [{"choices":["%s","%c","%f"],"answer":0},{"choices":["%f","%c","%d"],"answer":2}],
+        explanation: "%s displays the name. %d displays the integer count in decimal."
+      },
+      {
+        group: 1,
+        topic: "String slicing and length",
+        difficulty: 2,
+        prompt: "Use the first 3 characters of the museum admission 730 code, then read the shortened length.",
+        type: "dropdown",
+        code: "String code = \"CODEJG729\";\nString prefix = code.{{0}};\nint length = prefix.{{1}};",
+        slots: [{"choices":["substring(3)","substring(1, 3)","substring(0, 3)"],"answer":2},{"choices":["length","length()","size()"],"answer":1}],
+        explanation: "The end index is exclusive. substring(0, 3) gives 3 characters, and length() reports that count."
+      },
+      {
+        group: 1,
+        topic: "Concatenation and evaluation order",
+        difficulty: 1,
+        prompt: "What does result contain for the rental register 731?",
+        code: "String label = \"rental register 731\";\nString result = label + (3 + 9) + 730;",
+        choices: ["rental register 7319730","rental register 73112730","rental register 73139730","rental register 731742"],
+        answer: 1,
+        explanation: "The parenthesized expression is numeric addition. After the first concatenation, the final number is appended as text."
+      },
+      {
+        group: 1,
+        topic: "Array declarations and indexing",
+        difficulty: 1,
+        prompt: "Create an int array for these transit manifest 732 values, then read the last element generically.",
+        type: "wordBank",
+        code: "{{0}} values = {{1}};\nint last = values[{{2}}];",
+        bank: ["int","new int(731, 733, 740)","values.length","values.length()","int[]","new int[] {731, 733, 740}","values.length - 1"],
+        slots: [{"answer":4},{"answer":5},{"answer":6}],
+        explanation: "The array initializer uses braces, and the last legal index is one less than its length."
+      },
+      {
+        group: 1,
+        topic: "Ragged arrays",
+        difficulty: 2,
+        prompt: "Total all values in the clinic schedule 733 rows. Each row can have a different length.",
+        type: "dropdown",
+        code: "int[][] rows = {{732, 10}, {12}, {734, 13, 14}};\nint sum = 0;\nfor (int r = 0; r < {{0}}; r++) {\n    for (int c = 0; c < {{1}}; c++) sum += {{2}};\n}",
+        slots: [{"choices":["rows[0].length","rows[1].length","rows.length"],"answer":2},{"choices":["rows[0].length","rows[r].length","rows.length"],"answer":1},{"choices":["rows[r][c]","rows[c][r]","rows[r]"],"answer":0}],
+        explanation: "The outer array supplies the row count. Use the current row’s length for the inner loop, then index that row and column."
+      },
+      {
+        group: 1,
+        topic: "Compound assignments",
+        difficulty: 2,
+        prompt: "What is the final count for the field inventory 734?",
+        code: "int count = 733;\ncount += 6;\ncount *= 2;\ncount %= 21;",
+        choices: ["739","29","8","1478"],
+        answer: 2,
+        explanation: "Apply the addition, multiplication, and remainder in order. % returns what is left after division."
+      },
+      {
+        group: 1,
+        topic: "Operator precedence",
+        difficulty: 1,
+        prompt: "What value is assigned to points in the supply ledger 735?",
+        code: "int points = 734 + 2 * 4 - 3;",
+        choices: ["742","739","736","2941"],
+        answer: 1,
+        explanation: "Multiply 2 by four first. Then add 734 and subtract three."
+      },
+      {
+        group: 1,
+        topic: "Narrowing and signed overflow",
+        difficulty: 3,
+        prompt: "What value is stored after converting the institute roster 736 reading to a byte?",
+        code: "int reading = 1007;\nbyte packed = (byte) reading;",
+        choices: ["-17","1007","239","127"],
+        answer: 0,
+        explanation: "The conversion keeps the lowest eight bits and interprets them as a signed byte."
+      },
+      {
+        group: 1,
+        topic: "Stack with a list",
+        difficulty: 2,
+        prompt: "Use the end of the locker assignment 737 list as the top of a stack. Push and then pop.",
+        type: "wordBank",
+        code: "List<String> stack = new ArrayList<>(Arrays.asList(\"CODEJN736\"));\nstack.{{0}}(\"CODEJN3\");\nString popped = stack.{{1}}({{2}});",
+        bank: ["set","get","stack.size()","0","add","remove","stack.size() - 1"],
+        slots: [{"answer":4},{"answer":5},{"answer":6}],
+        explanation: "add appends the item. remove at the final index pops and returns it."
+      },
+      {
+        group: 1,
+        topic: "Removing during iteration",
+        difficulty: 3,
+        prompt: "Remove each matching workshop ticket 738 entry, including adjacent matches, while traversing the list.",
+        type: "dropdown",
+        code: "List<Integer> values = new ArrayList<>(Arrays.asList(737, 8, 8, 739));\nIterator<Integer> it = values.iterator();\nwhile (it.{{0}}) {\n    if (it.{{1}} == 8) it.{{2}};\n}",
+        slots: [{"choices":["hasNext()","next()","remove()"],"answer":0},{"choices":["hasNext()","size()","next()"],"answer":2},{"choices":["clear()","remove()","next()"],"answer":1}],
+        explanation: "hasNext checks for another element. next advances to it, and Iterator.remove safely removes the element just returned."
+      },
+      {
+        group: 1,
+        topic: "Sets and unique entries",
+        difficulty: 2,
+        prompt: "How many values are in seen after processing the shipment scan 739?",
+        code: "Set<Integer> seen = new HashSet<>();\nfor (int value : new int[] {738, 4, 738, 5, 4}) {\n    seen.add(value);\n}",
+        choices: ["5","3","2","4"],
+        answer: 1,
+        explanation: "A Set keeps each equal value once. The repeated values do not increase its size."
+      },
+      {
+        group: 1,
+        topic: "Integer division and remainder",
+        difficulty: 1,
+        prompt: "Divide 9616 museum admission 740 into groups of 13. Record the whole groups and the leftovers.",
+        type: "dropdown",
+        code: "int groups = 9616 {{0}} 13;\nint leftover = 9616 {{1}} 13;",
+        slots: [{"choices":["*","/","%"],"answer":1},{"choices":["%","/","-"],"answer":0}],
+        explanation: "Integer division gives 739 full groups. The remainder is 9."
+      },
+      {
+        group: 1,
+        topic: "Value and reference equality",
+        difficulty: 2,
+        prompt: "For the rental register 741 identifiers, what are sameReference and sameText?",
+        code: "String left = \"CODEJR740\";\nString right = new String(left);\nboolean sameReference = left == right;\nboolean sameText = left.equals(right);",
+        choices: ["true, true","false, false","true, false","false, true"],
+        answer: 3,
+        explanation: "new String creates a distinct object with the same text. == compares references and equals compares string content."
+      },
+      {
+        group: 1,
+        topic: "Integral ranges",
+        difficulty: 1,
+        prompt: "Store the clinic schedule 742 count exactly in the smallest listed signed integral type that can hold it.",
+        type: "dropdown",
+        code: "{{0}} count = {{1}};",
+        slots: [{"choices":["int","short","long"],"answer":2},{"choices":["2941010000F","2941010000L","2941010000"],"answer":1}],
+        explanation: "The value exceeds Integer.MAX_VALUE. A long declaration and an L-suffixed literal are needed."
+      },
+      {
+        group: 1,
+        topic: "Casting floating-point values",
+        difficulty: 1,
+        prompt: "What whole number does the field inventory 743 produce?",
+        code: "double sample = 742.4375;\nint whole = (int) sample;",
+        choices: ["742.4375","742","743","741"],
+        answer: 1,
+        explanation: "The cast drops the fractional part toward zero and leaves 742."
+      },
+      {
+        group: 1,
+        topic: "Decimal parsing",
+        difficulty: 1,
+        prompt: "Convert the supply ledger 744 text directly to a primitive double.",
+        type: "dropdown",
+        code: "String input = \"743.1875\";\n{{0}} measurement = {{1}}.{{2}}(input);",
+        slots: [{"choices":["double","int","String"],"answer":0},{"choices":["double","Integer","Double"],"answer":2},{"choices":["toString","parseDouble","parseInt"],"answer":1}],
+        explanation: "Double.parseDouble accepts fractional text and returns a primitive double."
+      },
+      {
+        group: 1,
+        topic: "String formatting",
+        difficulty: 2,
+        prompt: "Write the institute roster 745 name followed by its item count, using the decimal-integer format.",
+        type: "dropdown",
+        code: "String name = \"institute roster 745 7\";\nint count = 744;\nString result = String.format(Locale.ROOT, \"{{0}}: {{1}}\", name, count);",
+        slots: [{"choices":["%c","%f","%s"],"answer":2},{"choices":["%c","%d","%f"],"answer":1}],
+        explanation: "%s displays the name. %d displays the integer count in decimal."
+      },
+      {
+        group: 1,
+        topic: "String slicing and length",
+        difficulty: 2,
+        prompt: "Use the first 2 characters of the locker assignment 746 code, then read the shortened length.",
+        type: "dropdown",
+        code: "String code = \"CODEJW745\";\nString prefix = code.{{0}};\nint length = prefix.{{1}};",
+        slots: [{"choices":["substring(1, 2)","substring(0, 2)","substring(2)"],"answer":1},{"choices":["length()","size()","length"],"answer":0}],
+        explanation: "The end index is exclusive. substring(0, 2) gives 2 characters, and length() reports that count."
+      },
+      {
+        group: 1,
+        topic: "Concatenation and evaluation order",
+        difficulty: 1,
+        prompt: "What does result contain for the workshop ticket 747?",
+        code: "String label = \"workshop ticket 747\";\nString result = label + (3 + 8) + 746;",
+        choices: ["workshop ticket 7478746","workshop ticket 74711746","workshop ticket 74738746","workshop ticket 747757"],
+        answer: 1,
+        explanation: "The parenthesized expression is numeric addition. After the first concatenation, the final number is appended as text."
+      },
+      {
+        group: 1,
+        topic: "Array declarations and indexing",
+        difficulty: 1,
+        prompt: "Create an int array for these shipment scan 748 values, then read the last element generically.",
+        type: "wordBank",
+        code: "{{0}} values = {{1}};\nint last = values[{{2}}];",
+        bank: ["int","new int(747, 749, 755)","values.length","values.length()","int[]","new int[] {747, 749, 755}","values.length - 1"],
+        slots: [{"answer":4},{"answer":5},{"answer":6}],
+        explanation: "The array initializer uses braces, and the last legal index is one less than its length."
+      },
+      {
+        group: 1,
+        topic: "Ragged arrays",
+        difficulty: 2,
+        prompt: "Total all values in the museum admission 749 rows. Each row can have a different length.",
+        type: "dropdown",
+        code: "int[][] rows = {{748, 9}, {11}, {750, 12, 13}};\nint sum = 0;\nfor (int r = 0; r < {{0}}; r++) {\n    for (int c = 0; c < {{1}}; c++) sum += {{2}};\n}",
+        slots: [{"choices":["rows[1].length","rows.length","rows[0].length"],"answer":1},{"choices":["rows[r].length","rows.length","rows[0].length"],"answer":0},{"choices":["rows[c][r]","rows[r]","rows[r][c]"],"answer":2}],
+        explanation: "The outer array supplies the row count. Use the current row’s length for the inner loop, then index that row and column."
+      },
+      {
+        group: 1,
+        topic: "Compound assignments",
+        difficulty: 2,
+        prompt: "What is the final count for the rental register 750?",
+        code: "int count = 749;\ncount += 5;\ncount *= 2;\ncount %= 20;",
+        choices: ["754","28","8","1508"],
+        answer: 2,
+        explanation: "Apply the addition, multiplication, and remainder in order. % returns what is left after division."
+      },
+      {
+        group: 1,
+        topic: "Operator precedence",
+        difficulty: 1,
+        prompt: "What value is assigned to points in the transit manifest 751?",
+        code: "int points = 750 + 10 * 4 - 3;",
+        choices: ["790","787","760","3037"],
+        answer: 1,
+        explanation: "Multiply 10 by four first. Then add 750 and subtract three."
+      },
+      {
+        group: 1,
+        topic: "Narrowing and signed overflow",
+        difficulty: 3,
+        prompt: "What value is stored after converting the clinic schedule 752 reading to a byte?",
+        code: "int reading = 1022;\nbyte packed = (byte) reading;",
+        choices: ["-2","1022","254","127"],
+        answer: 0,
+        explanation: "The conversion keeps the lowest eight bits and interprets them as a signed byte."
+      },
+      {
+        group: 1,
+        topic: "Stack with a list",
+        difficulty: 2,
+        prompt: "Use the end of the field inventory 753 list as the top of a stack. Push and then pop.",
+        type: "wordBank",
+        code: "List<String> stack = new ArrayList<>(Arrays.asList(\"CODEK3752\"));\nstack.{{0}}(\"CODEK32\");\nString popped = stack.{{1}}({{2}});",
+        bank: ["set","get","stack.size()","0","add","remove","stack.size() - 1"],
+        slots: [{"answer":4},{"answer":5},{"answer":6}],
+        explanation: "add appends the item. remove at the final index pops and returns it."
+      },
+      {
+        group: 1,
+        topic: "Removing during iteration",
+        difficulty: 3,
+        prompt: "Remove each matching supply ledger 754 entry, including adjacent matches, while traversing the list.",
+        type: "dropdown",
+        code: "List<Integer> values = new ArrayList<>(Arrays.asList(753, 7, 7, 755));\nIterator<Integer> it = values.iterator();\nwhile (it.{{0}}) {\n    if (it.{{1}} == 7) it.{{2}};\n}",
+        slots: [{"choices":["next()","remove()","hasNext()"],"answer":2},{"choices":["size()","next()","hasNext()"],"answer":1},{"choices":["remove()","next()","clear()"],"answer":0}],
+        explanation: "hasNext checks for another element. next advances to it, and Iterator.remove safely removes the element just returned."
+      },
+      {
+        group: 1,
+        topic: "Sets and unique entries",
+        difficulty: 2,
+        prompt: "How many values are in seen after processing the institute roster 755?",
+        code: "Set<Integer> seen = new HashSet<>();\nfor (int value : new int[] {754, 3, 754, 4, 3}) {\n    seen.add(value);\n}",
+        choices: ["5","3","2","4"],
+        answer: 1,
+        explanation: "A Set keeps each equal value once. The repeated values do not increase its size."
+      },
+      {
+        group: 1,
+        topic: "Integer division and remainder",
+        difficulty: 1,
+        prompt: "Divide 9068 locker assignment 756 into groups of 12. Record the whole groups and the leftovers.",
+        type: "dropdown",
+        code: "int groups = 9068 {{0}} 12;\nint leftover = 9068 {{1}} 12;",
+        slots: [{"choices":["/","%","*"],"answer":0},{"choices":["/","-","%"],"answer":2}],
+        explanation: "Integer division gives 755 full groups. The remainder is 8."
+      },
+      {
+        group: 1,
+        topic: "Value and reference equality",
+        difficulty: 2,
+        prompt: "For the workshop ticket 757 identifiers, what are sameReference and sameText?",
+        code: "String left = \"CODEK7756\";\nString right = new String(left);\nboolean sameReference = left == right;\nboolean sameText = left.equals(right);",
+        choices: ["true, true","false, false","true, false","false, true"],
+        answer: 3,
+        explanation: "new String creates a distinct object with the same text. == compares references and equals compares string content."
+      },
+      {
+        group: 1,
+        topic: "Integral ranges",
+        difficulty: 1,
+        prompt: "Store the museum admission 758 count exactly in the smallest listed signed integral type that can hold it.",
+        type: "dropdown",
+        code: "{{0}} count = {{1}};",
+        slots: [{"choices":["short","long","int"],"answer":1},{"choices":["2957009000L","2957009000","2957009000F"],"answer":0}],
+        explanation: "The value exceeds Integer.MAX_VALUE. A long declaration and an L-suffixed literal are needed."
+      },
+      {
+        group: 1,
+        topic: "Casting floating-point values",
+        difficulty: 1,
+        prompt: "What whole number does the rental register 759 produce?",
+        code: "double sample = -758.375;\nint whole = (int) sample;",
+        choices: ["-758.375","-758","-757","-759"],
+        answer: 1,
+        explanation: "The cast drops the fractional part toward zero and leaves -758."
+      },
+      {
+        group: 1,
+        topic: "Decimal parsing",
+        difficulty: 1,
+        prompt: "Convert the transit manifest 760 text directly to a primitive double.",
+        type: "dropdown",
+        code: "String input = \"759.6875\";\n{{0}} measurement = {{1}}.{{2}}(input);",
+        slots: [{"choices":["int","String","double"],"answer":2},{"choices":["Integer","Double","double"],"answer":1},{"choices":["parseDouble","parseInt","toString"],"answer":0}],
+        explanation: "Double.parseDouble accepts fractional text and returns a primitive double."
+      },
+      {
+        group: 1,
+        topic: "String formatting",
+        difficulty: 2,
+        prompt: "Write the clinic schedule 761 name followed by its item count, using the decimal-integer format.",
+        type: "dropdown",
+        code: "String name = \"clinic schedule 761 6\";\nint count = 760;\nString result = String.format(Locale.ROOT, \"{{0}}: {{1}}\", name, count);",
+        slots: [{"choices":["%f","%s","%c"],"answer":1},{"choices":["%d","%f","%c"],"answer":0}],
+        explanation: "%s displays the name. %d displays the integer count in decimal."
+      },
+      {
+        group: 1,
+        topic: "String slicing and length",
+        difficulty: 2,
+        prompt: "Use the first 4 characters of the field inventory 762 code, then read the shortened length.",
+        type: "dropdown",
+        code: "String code = \"CODEKC761\";\nString prefix = code.{{0}};\nint length = prefix.{{1}};",
+        slots: [{"choices":["substring(0, 4)","substring(4)","substring(1, 4)"],"answer":0},{"choices":["size()","length","length()"],"answer":2}],
+        explanation: "The end index is exclusive. substring(0, 4) gives 4 characters, and length() reports that count."
+      },
+      {
+        group: 1,
+        topic: "Concatenation and evaluation order",
+        difficulty: 1,
+        prompt: "What does result contain for the supply ledger 763?",
+        code: "String label = \"supply ledger 763\";\nString result = label + (3 + 7) + 762;",
+        choices: ["supply ledger 7637762","supply ledger 76310762","supply ledger 76337762","supply ledger 763772"],
+        answer: 1,
+        explanation: "The parenthesized expression is numeric addition. After the first concatenation, the final number is appended as text."
+      },
+      {
+        group: 1,
+        topic: "Array declarations and indexing",
+        difficulty: 1,
+        prompt: "Create an int array for these institute roster 764 values, then read the last element generically.",
+        type: "wordBank",
+        code: "{{0}} values = {{1}};\nint last = values[{{2}}];",
+        bank: ["int","new int(763, 765, 770)","values.length","values.length()","int[]","new int[] {763, 765, 770}","values.length - 1"],
+        slots: [{"answer":4},{"answer":5},{"answer":6}],
+        explanation: "The array initializer uses braces, and the last legal index is one less than its length."
+      },
+      {
+        group: 1,
+        topic: "Ragged arrays",
+        difficulty: 2,
+        prompt: "Total all values in the locker assignment 765 rows. Each row can have a different length.",
+        type: "dropdown",
+        code: "int[][] rows = {{764, 8}, {10}, {766, 11, 12}};\nint sum = 0;\nfor (int r = 0; r < {{0}}; r++) {\n    for (int c = 0; c < {{1}}; c++) sum += {{2}};\n}",
+        slots: [{"choices":["rows.length","rows[0].length","rows[1].length"],"answer":0},{"choices":["rows.length","rows[0].length","rows[r].length"],"answer":2},{"choices":["rows[r]","rows[r][c]","rows[c][r]"],"answer":1}],
+        explanation: "The outer array supplies the row count. Use the current row’s length for the inner loop, then index that row and column."
+      },
+      {
+        group: 2,
+        topic: "Combined eligibility conditions",
+        difficulty: 2,
+        prompt: "The locker assignment 766 qualifies when units are at least 765 and defects are below 11.",
+        type: "wordBank",
+        code: "int units = 765;\nint defects = 10;\nboolean accepted = units {{0}} 765 {{1}} defects {{2}} 11;",
+        bank: [">","<=","||","==",">=","&&","<"],
+        slots: [{"answer":4},{"answer":5},{"answer":6}],
+        explanation: "At least includes the lower boundary. Below excludes the upper boundary. Both conditions are required."
+      },
+      {
+        group: 2,
+        topic: "Switch fall-through",
+        difficulty: 2,
+        prompt: "Which fee does the workshop ticket 767 code assign?",
+        code: "int option = 3;\nint fee = 0;\nswitch (option) {\n    case 3: fee = 766;\n    case 4: fee += 7; break;\n    default: fee = 777;\n}",
+        choices: ["777","773","766","7"],
+        answer: 1,
+        explanation: "The first matching case has no break. Execution continues into the next case and adds its fee."
+      },
+      {
+        group: 2,
+        topic: "Countdown logic",
+        difficulty: 2,
+        prompt: "Count from 767 through 759 inclusive while logging the shipment scan 768.",
+        type: "dropdown",
+        code: "int visits = 0;\nfor (int i = 767; i {{0}} 759; {{1}}) {\n    visits++;\n}",
+        slots: [{"choices":[">=",">","<"],"answer":0},{"choices":["i++","i += 2","i--"],"answer":2}],
+        explanation: ">= keeps the last bound in the loop, and i-- moves down by one after each iteration."
+      },
+      {
+        group: 2,
+        topic: "Do-while loop",
+        difficulty: 2,
+        prompt: "The museum admission 769 needs a first notification and stops after the total reaches 20.",
+        type: "wordBank",
+        code: "int total = 0;\nint notifications = 0;\nint interval = 4;\n{{0}} {\n    total += interval;\n    notifications++;\n} {{1}}",
+        bank: ["for","while (total <= 20);","while (total == 20);","do","while (total < 20);"],
+        slots: [{"answer":3},{"answer":4}],
+        explanation: "A do loop begins with the body. A strict less-than condition stops the loop once the target is reached."
+      },
+      {
+        group: 2,
+        topic: "Loop with an early exit",
+        difficulty: 2,
+        prompt: "Reject a rental register 770 entry longer than 11 characters and stop as soon as one is found.",
+        type: "wordBank",
+        code: "String[] entries = {\"CODEKK\", \"769769769769769769769769769769769769\", \"rental register 770\"};\nboolean accepted = true;\nfor (String entry {{0}} entries) {\n    if (entry.length() {{1}} 11) {\n        accepted = false;\n        {{2}};\n    }\n}",
+        bank: [";",">=","<","continue",":",">","break"],
+        slots: [{"answer":4},{"answer":5},{"answer":6}],
+        explanation: "Use an enhanced for loop, reject lengths strictly greater than the limit, and exit with break."
+      },
+      {
+        group: 2,
+        topic: "Combined eligibility conditions",
+        difficulty: 2,
+        prompt: "The clinic schedule 771 qualifies when units are at least 770 and defects are below 9.",
+        type: "wordBank",
+        code: "int units = 770;\nint defects = 8;\nboolean accepted = units {{0}} 770 {{1}} defects {{2}} 9;",
+        bank: [">","<=","||","==",">=","&&","<"],
+        slots: [{"answer":4},{"answer":5},{"answer":6}],
+        explanation: "At least includes the lower boundary. Below excludes the upper boundary. Both conditions are required."
+      },
+      {
+        group: 2,
+        topic: "Switch fall-through",
+        difficulty: 2,
+        prompt: "Which fee does the field inventory 772 code assign?",
+        code: "int option = 10;\nint fee = 0;\nswitch (option) {\n    case 10: fee = 771;\n    case 11: fee += 14; break;\n    default: fee = 789;\n}",
+        choices: ["785","771","14","789"],
+        answer: 0,
+        explanation: "The first matching case has no break. Execution continues into the next case and adds its fee."
+      },
+      {
+        group: 2,
+        topic: "Countdown logic",
+        difficulty: 2,
+        prompt: "Count from 772 through 766 inclusive while logging the supply ledger 773.",
+        type: "dropdown",
+        code: "int visits = 0;\nfor (int i = 772; i {{0}} 766; {{1}}) {\n    visits++;\n}",
+        slots: [{"choices":["<",">=",">"],"answer":1},{"choices":["i--","i++","i += 2"],"answer":0}],
+        explanation: ">= keeps the last bound in the loop, and i-- moves down by one after each iteration."
+      },
+      {
+        group: 2,
+        topic: "Do-while loop",
+        difficulty: 2,
+        prompt: "The institute roster 774 needs a first notification and stops after the total reaches 10.",
+        type: "wordBank",
+        code: "int total = 0;\nint notifications = 0;\nint interval = 2;\n{{0}} {\n    total += interval;\n    notifications++;\n} {{1}}",
+        bank: ["for","while (total <= 10);","while (total == 10);","do","while (total < 10);"],
+        slots: [{"answer":3},{"answer":4}],
+        explanation: "A do loop begins with the body. A strict less-than condition stops the loop once the target is reached."
+      },
+      {
+        group: 2,
+        topic: "Loop with an early exit",
+        difficulty: 2,
+        prompt: "Reject a locker assignment 775 entry longer than 9 characters and stop as soon as one is found.",
+        type: "wordBank",
+        code: "String[] entries = {\"CODEKP\", \"774774774774774774774774774774\", \"locker assignment 775\"};\nboolean accepted = true;\nfor (String entry {{0}} entries) {\n    if (entry.length() {{1}} 9) {\n        accepted = false;\n        {{2}};\n    }\n}",
+        bank: [";",">=","<","continue",":",">","break"],
+        slots: [{"answer":4},{"answer":5},{"answer":6}],
+        explanation: "Use an enhanced for loop, reject lengths strictly greater than the limit, and exit with break."
+      },
+      {
+        group: 2,
+        topic: "Combined eligibility conditions",
+        difficulty: 2,
+        prompt: "The shipment scan 776 qualifies when units are at least 775 and defects are below 7.",
+        type: "wordBank",
+        code: "int units = 775;\nint defects = 6;\nboolean accepted = units {{0}} 775 {{1}} defects {{2}} 7;",
+        bank: [">","<=","||","==",">=","&&","<"],
+        slots: [{"answer":4},{"answer":5},{"answer":6}],
+        explanation: "At least includes the lower boundary. Below excludes the upper boundary. Both conditions are required."
+      },
+      {
+        group: 2,
+        topic: "Switch fall-through",
+        difficulty: 2,
+        prompt: "Which fee does the museum admission 777 code assign?",
+        code: "int option = 8;\nint fee = 0;\nswitch (option) {\n    case 8: fee = 776;\n    case 9: fee += 12; break;\n    default: fee = 792;\n}",
+        choices: ["776","12","792","788"],
+        answer: 3,
+        explanation: "The first matching case has no break. Execution continues into the next case and adds its fee."
+      },
+      {
+        group: 2,
+        topic: "Countdown logic",
+        difficulty: 2,
+        prompt: "Count from 777 through 773 inclusive while logging the rental register 778.",
+        type: "dropdown",
+        code: "int visits = 0;\nfor (int i = 777; i {{0}} 773; {{1}}) {\n    visits++;\n}",
+        slots: [{"choices":[">","<",">="],"answer":2},{"choices":["i += 2","i--","i++"],"answer":1}],
+        explanation: ">= keeps the last bound in the loop, and i-- moves down by one after each iteration."
+      },
+      {
+        group: 2,
+        topic: "Do-while loop",
+        difficulty: 2,
+        prompt: "The transit manifest 779 needs a first notification and stops after the total reaches 45.",
+        type: "wordBank",
+        code: "int total = 0;\nint notifications = 0;\nint interval = 9;\n{{0}} {\n    total += interval;\n    notifications++;\n} {{1}}",
+        bank: ["for","while (total <= 45);","while (total == 45);","do","while (total < 45);"],
+        slots: [{"answer":3},{"answer":4}],
+        explanation: "A do loop begins with the body. A strict less-than condition stops the loop once the target is reached."
+      },
+      {
+        group: 2,
+        topic: "Loop with an early exit",
+        difficulty: 2,
+        prompt: "Reject a clinic schedule 780 entry longer than 7 characters and stop as soon as one is found.",
+        type: "wordBank",
+        code: "String[] entries = {\"CODEKU\", \"779779779779779779779779\", \"clinic schedule 780\"};\nboolean accepted = true;\nfor (String entry {{0}} entries) {\n    if (entry.length() {{1}} 7) {\n        accepted = false;\n        {{2}};\n    }\n}",
+        bank: [";",">=","<","continue",":",">","break"],
+        slots: [{"answer":4},{"answer":5},{"answer":6}],
+        explanation: "Use an enhanced for loop, reject lengths strictly greater than the limit, and exit with break."
+      },
+      {
+        group: 2,
+        topic: "Combined eligibility conditions",
+        difficulty: 2,
+        prompt: "The supply ledger 781 qualifies when units are at least 780 and defects are below 14.",
+        type: "wordBank",
+        code: "int units = 780;\nint defects = 13;\nboolean accepted = units {{0}} 780 {{1}} defects {{2}} 14;",
+        bank: [">","<=","||","==",">=","&&","<"],
+        slots: [{"answer":4},{"answer":5},{"answer":6}],
+        explanation: "At least includes the lower boundary. Below excludes the upper boundary. Both conditions are required."
+      },
+      {
+        group: 2,
+        topic: "Switch fall-through",
+        difficulty: 2,
+        prompt: "Which fee does the institute roster 782 code assign?",
+        code: "int option = 6;\nint fee = 0;\nswitch (option) {\n    case 6: fee = 781;\n    case 7: fee += 10; break;\n    default: fee = 795;\n}",
+        choices: ["10","795","791","781"],
+        answer: 2,
+        explanation: "The first matching case has no break. Execution continues into the next case and adds its fee."
+      },
+      {
+        group: 2,
+        topic: "Countdown logic",
+        difficulty: 2,
+        prompt: "Count from 782 through 780 inclusive while logging the locker assignment 783.",
+        type: "dropdown",
+        code: "int visits = 0;\nfor (int i = 782; i {{0}} 780; {{1}}) {\n    visits++;\n}",
+        slots: [{"choices":[">=",">","<"],"answer":0},{"choices":["i++","i += 2","i--"],"answer":2}],
+        explanation: ">= keeps the last bound in the loop, and i-- moves down by one after each iteration."
+      },
+      {
+        group: 2,
+        topic: "Do-while loop",
+        difficulty: 2,
+        prompt: "The workshop ticket 784 needs a first notification and stops after the total reaches 35.",
+        type: "wordBank",
+        code: "int total = 0;\nint notifications = 0;\nint interval = 7;\n{{0}} {\n    total += interval;\n    notifications++;\n} {{1}}",
+        bank: ["for","while (total <= 35);","while (total == 35);","do","while (total < 35);"],
+        slots: [{"answer":3},{"answer":4}],
+        explanation: "A do loop begins with the body. A strict less-than condition stops the loop once the target is reached."
+      },
+      {
+        group: 2,
+        topic: "Loop with an early exit",
+        difficulty: 2,
+        prompt: "Reject a shipment scan 785 entry longer than 5 characters and stop as soon as one is found.",
+        type: "wordBank",
+        code: "String[] entries = {\"CODEKZ\", \"784784784784784784\", \"shipment scan 785\"};\nboolean accepted = true;\nfor (String entry {{0}} entries) {\n    if (entry.length() {{1}} 5) {\n        accepted = false;\n        {{2}};\n    }\n}",
+        bank: [";",">=","<","continue",":",">","break"],
+        slots: [{"answer":4},{"answer":5},{"answer":6}],
+        explanation: "Use an enhanced for loop, reject lengths strictly greater than the limit, and exit with break."
+      },
+      {
+        group: 2,
+        topic: "Combined eligibility conditions",
+        difficulty: 2,
+        prompt: "The rental register 786 qualifies when units are at least 785 and defects are below 12.",
+        type: "wordBank",
+        code: "int units = 785;\nint defects = 11;\nboolean accepted = units {{0}} 785 {{1}} defects {{2}} 12;",
+        bank: [">","<=","||","==",">=","&&","<"],
+        slots: [{"answer":4},{"answer":5},{"answer":6}],
+        explanation: "At least includes the lower boundary. Below excludes the upper boundary. Both conditions are required."
+      },
+      {
+        group: 2,
+        topic: "Switch fall-through",
+        difficulty: 2,
+        prompt: "Which fee does the transit manifest 787 code assign?",
+        code: "int option = 4;\nint fee = 0;\nswitch (option) {\n    case 4: fee = 786;\n    case 5: fee += 8; break;\n    default: fee = 798;\n}",
+        choices: ["798","794","786","8"],
+        answer: 1,
+        explanation: "The first matching case has no break. Execution continues into the next case and adds its fee."
+      },
+      {
+        group: 2,
+        topic: "Countdown logic",
+        difficulty: 2,
+        prompt: "Count from 787 through 778 inclusive while logging the clinic schedule 788.",
+        type: "dropdown",
+        code: "int visits = 0;\nfor (int i = 787; i {{0}} 778; {{1}}) {\n    visits++;\n}",
+        slots: [{"choices":["<",">=",">"],"answer":1},{"choices":["i--","i++","i += 2"],"answer":0}],
+        explanation: ">= keeps the last bound in the loop, and i-- moves down by one after each iteration."
+      },
+      {
+        group: 2,
+        topic: "Do-while loop",
+        difficulty: 2,
+        prompt: "The field inventory 789 needs a first notification and stops after the total reaches 25.",
+        type: "wordBank",
+        code: "int total = 0;\nint notifications = 0;\nint interval = 5;\n{{0}} {\n    total += interval;\n    notifications++;\n} {{1}}",
+        bank: ["for","while (total <= 25);","while (total == 25);","do","while (total < 25);"],
+        slots: [{"answer":3},{"answer":4}],
+        explanation: "A do loop begins with the body. A strict less-than condition stops the loop once the target is reached."
+      },
+      {
+        group: 2,
+        topic: "Loop with an early exit",
+        difficulty: 2,
+        prompt: "Reject a supply ledger 790 entry longer than 12 characters and stop as soon as one is found.",
+        type: "wordBank",
+        code: "String[] entries = {\"CODEL4\", \"789789789789789789789789789789789789789\", \"supply ledger 790\"};\nboolean accepted = true;\nfor (String entry {{0}} entries) {\n    if (entry.length() {{1}} 12) {\n        accepted = false;\n        {{2}};\n    }\n}",
+        bank: [";",">=","<","continue",":",">","break"],
+        slots: [{"answer":4},{"answer":5},{"answer":6}],
+        explanation: "Use an enhanced for loop, reject lengths strictly greater than the limit, and exit with break."
+      },
+      {
+        group: 2,
+        topic: "Combined eligibility conditions",
+        difficulty: 2,
+        prompt: "The locker assignment 791 qualifies when units are at least 790 and defects are below 10.",
+        type: "wordBank",
+        code: "int units = 790;\nint defects = 9;\nboolean accepted = units {{0}} 790 {{1}} defects {{2}} 10;",
+        bank: [">","<=","||","==",">=","&&","<"],
+        slots: [{"answer":4},{"answer":5},{"answer":6}],
+        explanation: "At least includes the lower boundary. Below excludes the upper boundary. Both conditions are required."
+      },
+      {
+        group: 2,
+        topic: "Switch fall-through",
+        difficulty: 2,
+        prompt: "Which fee does the workshop ticket 792 code assign?",
+        code: "int option = 2;\nint fee = 0;\nswitch (option) {\n    case 2: fee = 791;\n    case 3: fee += 6; break;\n    default: fee = 801;\n}",
+        choices: ["797","791","6","801"],
+        answer: 0,
+        explanation: "The first matching case has no break. Execution continues into the next case and adds its fee."
+      },
+      {
+        group: 2,
+        topic: "Countdown logic",
+        difficulty: 2,
+        prompt: "Count from 792 through 785 inclusive while logging the shipment scan 793.",
+        type: "dropdown",
+        code: "int visits = 0;\nfor (int i = 792; i {{0}} 785; {{1}}) {\n    visits++;\n}",
+        slots: [{"choices":[">","<",">="],"answer":2},{"choices":["i += 2","i--","i++"],"answer":1}],
+        explanation: ">= keeps the last bound in the loop, and i-- moves down by one after each iteration."
+      },
+      {
+        group: 2,
+        topic: "Do-while loop",
+        difficulty: 2,
+        prompt: "The museum admission 794 needs a first notification and stops after the total reaches 15.",
+        type: "wordBank",
+        code: "int total = 0;\nint notifications = 0;\nint interval = 3;\n{{0}} {\n    total += interval;\n    notifications++;\n} {{1}}",
+        bank: ["for","while (total <= 15);","while (total == 15);","do","while (total < 15);"],
+        slots: [{"answer":3},{"answer":4}],
+        explanation: "A do loop begins with the body. A strict less-than condition stops the loop once the target is reached."
+      },
+      {
+        group: 2,
+        topic: "Loop with an early exit",
+        difficulty: 2,
+        prompt: "Reject a rental register 795 entry longer than 10 characters and stop as soon as one is found.",
+        type: "wordBank",
+        code: "String[] entries = {\"CODEL9\", \"794794794794794794794794794794794\", \"rental register 795\"};\nboolean accepted = true;\nfor (String entry {{0}} entries) {\n    if (entry.length() {{1}} 10) {\n        accepted = false;\n        {{2}};\n    }\n}",
+        bank: [";",">=","<","continue",":",">","break"],
+        slots: [{"answer":4},{"answer":5},{"answer":6}],
+        explanation: "Use an enhanced for loop, reject lengths strictly greater than the limit, and exit with break."
+      },
+      {
+        group: 2,
+        topic: "Combined eligibility conditions",
+        difficulty: 2,
+        prompt: "The clinic schedule 796 qualifies when units are at least 795 and defects are below 8.",
+        type: "wordBank",
+        code: "int units = 795;\nint defects = 7;\nboolean accepted = units {{0}} 795 {{1}} defects {{2}} 8;",
+        bank: [">","<=","||","==",">=","&&","<"],
+        slots: [{"answer":4},{"answer":5},{"answer":6}],
+        explanation: "At least includes the lower boundary. Below excludes the upper boundary. Both conditions are required."
+      },
+      {
+        group: 2,
+        topic: "Switch fall-through",
+        difficulty: 2,
+        prompt: "Which fee does the field inventory 797 code assign?",
+        code: "int option = 9;\nint fee = 0;\nswitch (option) {\n    case 9: fee = 796;\n    case 10: fee += 13; break;\n    default: fee = 813;\n}",
+        choices: ["796","13","813","809"],
+        answer: 3,
+        explanation: "The first matching case has no break. Execution continues into the next case and adds its fee."
+      },
+      {
+        group: 2,
+        topic: "Countdown logic",
+        difficulty: 2,
+        prompt: "Count from 797 through 792 inclusive while logging the supply ledger 798.",
+        type: "dropdown",
+        code: "int visits = 0;\nfor (int i = 797; i {{0}} 792; {{1}}) {\n    visits++;\n}",
+        slots: [{"choices":[">=",">","<"],"answer":0},{"choices":["i++","i += 2","i--"],"answer":2}],
+        explanation: ">= keeps the last bound in the loop, and i-- moves down by one after each iteration."
+      },
+      {
+        group: 2,
+        topic: "Do-while loop",
+        difficulty: 2,
+        prompt: "The institute roster 799 needs a first notification and stops after the total reaches 50.",
+        type: "wordBank",
+        code: "int total = 0;\nint notifications = 0;\nint interval = 10;\n{{0}} {\n    total += interval;\n    notifications++;\n} {{1}}",
+        bank: ["for","while (total <= 50);","while (total == 50);","do","while (total < 50);"],
+        slots: [{"answer":3},{"answer":4}],
+        explanation: "A do loop begins with the body. A strict less-than condition stops the loop once the target is reached."
+      },
+      {
+        group: 2,
+        topic: "Loop with an early exit",
+        difficulty: 2,
+        prompt: "Reject a locker assignment 800 entry longer than 8 characters and stop as soon as one is found.",
+        type: "wordBank",
+        code: "String[] entries = {\"CODELE\", \"799799799799799799799799799\", \"locker assignment 800\"};\nboolean accepted = true;\nfor (String entry {{0}} entries) {\n    if (entry.length() {{1}} 8) {\n        accepted = false;\n        {{2}};\n    }\n}",
+        bank: [";",">=","<","continue",":",">","break"],
+        slots: [{"answer":4},{"answer":5},{"answer":6}],
+        explanation: "Use an enhanced for loop, reject lengths strictly greater than the limit, and exit with break."
+      },
+      {
+        group: 2,
+        topic: "Combined eligibility conditions",
+        difficulty: 2,
+        prompt: "The shipment scan 801 qualifies when units are at least 800 and defects are below 6.",
+        type: "wordBank",
+        code: "int units = 800;\nint defects = 5;\nboolean accepted = units {{0}} 800 {{1}} defects {{2}} 6;",
+        bank: [">","<=","||","==",">=","&&","<"],
+        slots: [{"answer":4},{"answer":5},{"answer":6}],
+        explanation: "At least includes the lower boundary. Below excludes the upper boundary. Both conditions are required."
+      },
+      {
+        group: 2,
+        topic: "Switch fall-through",
+        difficulty: 2,
+        prompt: "Which fee does the museum admission 802 code assign?",
+        code: "int option = 7;\nint fee = 0;\nswitch (option) {\n    case 7: fee = 801;\n    case 8: fee += 11; break;\n    default: fee = 816;\n}",
+        choices: ["11","816","812","801"],
+        answer: 2,
+        explanation: "The first matching case has no break. Execution continues into the next case and adds its fee."
+      },
+      {
+        group: 2,
+        topic: "Countdown logic",
+        difficulty: 2,
+        prompt: "Count from 802 through 799 inclusive while logging the rental register 803.",
+        type: "dropdown",
+        code: "int visits = 0;\nfor (int i = 802; i {{0}} 799; {{1}}) {\n    visits++;\n}",
+        slots: [{"choices":["<",">=",">"],"answer":1},{"choices":["i--","i++","i += 2"],"answer":0}],
+        explanation: ">= keeps the last bound in the loop, and i-- moves down by one after each iteration."
+      },
+      {
+        group: 2,
+        topic: "Do-while loop",
+        difficulty: 2,
+        prompt: "The transit manifest 804 needs a first notification and stops after the total reaches 40.",
+        type: "wordBank",
+        code: "int total = 0;\nint notifications = 0;\nint interval = 8;\n{{0}} {\n    total += interval;\n    notifications++;\n} {{1}}",
+        bank: ["for","while (total <= 40);","while (total == 40);","do","while (total < 40);"],
+        slots: [{"answer":3},{"answer":4}],
+        explanation: "A do loop begins with the body. A strict less-than condition stops the loop once the target is reached."
+      },
+      {
+        group: 2,
+        topic: "Loop with an early exit",
+        difficulty: 2,
+        prompt: "Reject a clinic schedule 805 entry longer than 6 characters and stop as soon as one is found.",
+        type: "wordBank",
+        code: "String[] entries = {\"CODELJ\", \"804804804804804804804\", \"clinic schedule 805\"};\nboolean accepted = true;\nfor (String entry {{0}} entries) {\n    if (entry.length() {{1}} 6) {\n        accepted = false;\n        {{2}};\n    }\n}",
+        bank: [";",">=","<","continue",":",">","break"],
+        slots: [{"answer":4},{"answer":5},{"answer":6}],
+        explanation: "Use an enhanced for loop, reject lengths strictly greater than the limit, and exit with break."
+      },
+      {
+        group: 3,
+        topic: "Constructor and instance methods",
+        difficulty: 2,
+        prompt: "Create a Record805 for the workshop ticket 806, store the starting count, and call its read method.",
+        type: "dropdown",
+        code: "class Record805 {\n    private int count;\n    Record805(int count) { {{0}} = count; }\n    int read(int extra) { return count + extra; }\n}\nRecord805 item = {{1}};\nint value = {{2}};",
+        slots: [{"choices":["Record805.count","this.count","count"],"answer":1},{"choices":["new Record805(805)","Record805(805)","new Record805()"],"answer":0},{"choices":["item.read()","Record805.read(3)","item.read(3)"],"answer":2}],
+        explanation: "this.count is the field. new calls the constructor. The instance reference is used to call read with its argument."
+      },
+      {
+        group: 3,
+        topic: "Static and instance state",
+        difficulty: 3,
+        prompt: "What are the first object’s units and the shared total for the shipment scan 807?",
+        code: "// Class and caller are in the same package.\nclass Record806 {\n    static int total;\n    int units;\n    Record806(int units) {\n        this.units = units;\n        total += units;\n    }\n}\n// Caller\nRecord806 first = new Record806(806);\nRecord806 second = new Record806(8);",
+        choices: ["806, 806","806, 814","8, 814","814, 806"],
+        answer: 1,
+        explanation: "units belongs to each instance. Both constructor calls update the same static total."
+      },
+      {
+        group: 3,
+        topic: "Class constants",
+        difficulty: 2,
+        prompt: "Declare LIMIT for the museum admission 808 in the usual order: access modifier, class-level modifier, immutability modifier. It must be readable wherever Record807 is accessible.",
+        type: "wordBank",
+        code: "class Record807 {\n    {{0}} {{1}} {{2}} int LIMIT = 807;\n}",
+        bank: ["private","protected","void","abstract","public","static","final"],
+        slots: [{"answer":4},{"answer":5},{"answer":6}],
+        explanation: "Use public for access, static for a class field, and final to prevent reassignment. The declaration uses the conventional modifier order."
+      },
+      {
+        group: 3,
+        topic: "Package accessibility",
+        difficulty: 2,
+        prompt: "An unrelated class in the same package needs to call read() for a rental register 809. Which statement is true?",
+        code: "class Record808 {\n    public int read() { return 808; }\n}",
+        choices: ["It can call read() only through the class name.","It can create the object and call read().","It must extend the class first.","It must be in a different package."],
+        answer: 1,
+        explanation: "The class has package access, so any class in that package can create an instance and call its public method."
+      },
+      {
+        group: 3,
+        topic: "Inheritance and overriding",
+        difficulty: 3,
+        prompt: "Extend the transit manifest 810 class and base the child’s result on the parent calculation.",
+        type: "wordBank",
+        code: "class Record809 {\n    final int base;\n    Record809(int base) { this.base = base; }\n    int rate() { return base; }\n}\nclass Priority {{0}} Record809 {\n    Priority(int base) { {{1}}(base); }\n    @Override int rate() { return {{2}} + 5; }\n}\nint result = new Priority(809).rate();",
+        bank: ["implements","this","this.rate()","Record809.rate()","extends","super","super.rate()"],
+        slots: [{"answer":4},{"answer":5},{"answer":6}],
+        explanation: "extends creates the subclass, super(base) calls the parent constructor, and super.rate() calls the original method."
+      },
+      {
+        group: 3,
+        topic: "Runtime method dispatch",
+        difficulty: 3,
+        prompt: "What rate does the clinic schedule 811 use through its parent-typed reference?",
+        code: "class Record810 { int rate() { return 810; } }\nclass Special extends Record810 {\n    @Override int rate() { return 820; }\n}\nRecord810 item = new Special();\nint rate = item.rate();",
+        choices: ["820","810","10","830"],
+        answer: 0,
+        explanation: "The runtime object is Special. An overridden instance method is selected from the runtime class."
+      },
+      {
+        group: 3,
+        topic: "Resolving overloads",
+        difficulty: 3,
+        prompt: "Which overloaded method handles the field inventory 812 value?",
+        code: "class Record811 {\n    String read(int value) { return \"int\"; }\n    String read(long value) { return \"long\"; }\n    String read(double value) { return \"double\"; }\n}\nString kind = new Record811().read(811);",
+        choices: ["long","double","Ambiguous call","int"],
+        answer: 3,
+        explanation: "The argument’s compile-time type chooses the overload. An L suffix makes an integer literal a long."
+      },
+      {
+        group: 3,
+        topic: "Java pass-by-value",
+        difficulty: 2,
+        prompt: "What are the updated value and the original total after processing the supply ledger 813?",
+        code: "class Record812 {\n    int update(int total) {\n        total += 2;\n        return total;\n    }\n}\nint total = 812;\nint updated = new Record812().update(total);",
+        choices: ["812, 812","812, 814","814, 812","814, 814"],
+        answer: 2,
+        explanation: "The parameter gets a copy of the caller’s value. The new number is returned, but the original variable is unchanged."
+      },
+      {
+        group: 3,
+        topic: "Interfaces and polymorphism",
+        difficulty: 3,
+        prompt: "Make the institute roster 814 implementation available through its interface type.",
+        type: "dropdown",
+        code: "interface Countable { int count(); }\nclass Record813 {{0}} Countable {\n    {{1}} int count() { return 820; }\n}\nCountable item = new Record813();\nint result = item.count();",
+        slots: [{"choices":["extends","instanceof","implements"],"answer":2},{"choices":["protected","public","private"],"answer":1}],
+        explanation: "A class implements an interface. It implements the interface’s public method with public access."
+      },
+      {
+        group: 3,
+        topic: "Constructor and instance methods",
+        difficulty: 2,
+        prompt: "Create a Record814 for the workshop ticket 815, store the starting count, and call its read method.",
+        type: "dropdown",
+        code: "class Record814 {\n    private int count;\n    Record814(int count) { {{0}} = count; }\n    int read(int extra) { return count + extra; }\n}\nRecord814 item = {{1}};\nint value = {{2}};",
+        slots: [{"choices":["count","Record814.count","this.count"],"answer":2},{"choices":["new Record814()","new Record814(814)","Record814(814)"],"answer":1},{"choices":["item.read(3)","item.read()","Record814.read(3)"],"answer":0}],
+        explanation: "this.count is the field. new calls the constructor. The instance reference is used to call read with its argument."
+      },
+      {
+        group: 3,
+        topic: "Static and instance state",
+        difficulty: 3,
+        prompt: "What are the first object’s units and the shared total for the shipment scan 816?",
+        code: "// Class and caller are in the same package.\nclass Record815 {\n    static int total;\n    int units;\n    Record815(int units) {\n        this.units = units;\n        total += units;\n    }\n}\n// Caller\nRecord815 first = new Record815(815);\nRecord815 second = new Record815(8);",
+        choices: ["815, 823","8, 823","823, 815","815, 815"],
+        answer: 0,
+        explanation: "units belongs to each instance. Both constructor calls update the same static total."
+      },
+      {
+        group: 3,
+        topic: "Class constants",
+        difficulty: 2,
+        prompt: "Declare LIMIT for the museum admission 817 in the usual order: access modifier, class-level modifier, immutability modifier. It must be readable wherever Record816 is accessible.",
+        type: "wordBank",
+        code: "class Record816 {\n    {{0}} {{1}} {{2}} int LIMIT = 816;\n}",
+        bank: ["private","protected","void","abstract","public","static","final"],
+        slots: [{"answer":4},{"answer":5},{"answer":6}],
+        explanation: "Use public for access, static for a class field, and final to prevent reassignment. The declaration uses the conventional modifier order."
+      },
+      {
+        group: 3,
+        topic: "Package accessibility",
+        difficulty: 2,
+        prompt: "An unrelated class in the same package needs to call read() for a rental register 818. Which statement is true?",
+        code: "class Record817 {\n    public int read() { return 817; }\n}",
+        choices: ["It can create the object and call read().","It must extend the class first.","It must be in a different package.","It can call read() only through the class name."],
+        answer: 0,
+        explanation: "The class has package access, so any class in that package can create an instance and call its public method."
+      },
+      {
+        group: 3,
+        topic: "Inheritance and overriding",
+        difficulty: 3,
+        prompt: "Extend the transit manifest 819 class and base the child’s result on the parent calculation.",
+        type: "wordBank",
+        code: "class Record818 {\n    final int base;\n    Record818(int base) { this.base = base; }\n    int rate() { return base; }\n}\nclass Priority {{0}} Record818 {\n    Priority(int base) { {{1}}(base); }\n    @Override int rate() { return {{2}} + 5; }\n}\nint result = new Priority(818).rate();",
+        bank: ["implements","this","this.rate()","Record818.rate()","extends","super","super.rate()"],
+        slots: [{"answer":4},{"answer":5},{"answer":6}],
+        explanation: "extends creates the subclass, super(base) calls the parent constructor, and super.rate() calls the original method."
+      },
+      {
+        group: 3,
+        topic: "Runtime method dispatch",
+        difficulty: 3,
+        prompt: "What rate does the clinic schedule 820 use through its parent-typed reference?",
+        code: "class Record819 { int rate() { return 819; } }\nclass Special extends Record819 {\n    @Override int rate() { return 829; }\n}\nRecord819 item = new Special();\nint rate = item.rate();",
+        choices: ["819","10","839","829"],
+        answer: 3,
+        explanation: "The runtime object is Special. An overridden instance method is selected from the runtime class."
+      },
+      {
+        group: 3,
+        topic: "Resolving overloads",
+        difficulty: 3,
+        prompt: "Which overloaded method handles the field inventory 821 value?",
+        code: "class Record820 {\n    String read(int value) { return \"int\"; }\n    String read(long value) { return \"long\"; }\n    String read(double value) { return \"double\"; }\n}\nString kind = new Record820().read(820);",
+        choices: ["double","Ambiguous call","int","long"],
+        answer: 2,
+        explanation: "The argument’s compile-time type chooses the overload. An L suffix makes an integer literal a long."
+      },
+      {
+        group: 3,
+        topic: "Java pass-by-value",
+        difficulty: 2,
+        prompt: "What are the updated value and the original total after processing the supply ledger 822?",
+        code: "class Record821 {\n    int update(int total) {\n        total += 2;\n        return total;\n    }\n}\nint total = 821;\nint updated = new Record821().update(total);",
+        choices: ["821, 823","823, 821","823, 823","821, 821"],
+        answer: 1,
+        explanation: "The parameter gets a copy of the caller’s value. The new number is returned, but the original variable is unchanged."
+      },
+      {
+        group: 3,
+        topic: "Interfaces and polymorphism",
+        difficulty: 3,
+        prompt: "Make the institute roster 823 implementation available through its interface type.",
+        type: "dropdown",
+        code: "interface Countable { int count(); }\nclass Record822 {{0}} Countable {\n    {{1}} int count() { return 829; }\n}\nCountable item = new Record822();\nint result = item.count();",
+        slots: [{"choices":["implements","extends","instanceof"],"answer":0},{"choices":["private","protected","public"],"answer":2}],
+        explanation: "A class implements an interface. It implements the interface’s public method with public access."
+      },
+      {
+        group: 3,
+        topic: "Constructor and instance methods",
+        difficulty: 2,
+        prompt: "Create a Record823 for the workshop ticket 824, store the starting count, and call its read method.",
+        type: "dropdown",
+        code: "class Record823 {\n    private int count;\n    Record823(int count) { {{0}} = count; }\n    int read(int extra) { return count + extra; }\n}\nRecord823 item = {{1}};\nint value = {{2}};",
+        slots: [{"choices":["this.count","count","Record823.count"],"answer":0},{"choices":["Record823(823)","new Record823()","new Record823(823)"],"answer":2},{"choices":["Record823.read(3)","item.read(3)","item.read()"],"answer":1}],
+        explanation: "this.count is the field. new calls the constructor. The instance reference is used to call read with its argument."
+      },
+      {
+        group: 3,
+        topic: "Static and instance state",
+        difficulty: 3,
+        prompt: "What are the first object’s units and the shared total for the shipment scan 825?",
+        code: "// Class and caller are in the same package.\nclass Record824 {\n    static int total;\n    int units;\n    Record824(int units) {\n        this.units = units;\n        total += units;\n    }\n}\n// Caller\nRecord824 first = new Record824(824);\nRecord824 second = new Record824(8);",
+        choices: ["8, 832","832, 824","824, 824","824, 832"],
+        answer: 3,
+        explanation: "units belongs to each instance. Both constructor calls update the same static total."
+      },
+      {
+        group: 3,
+        topic: "Class constants",
+        difficulty: 2,
+        prompt: "Declare LIMIT for the museum admission 826 in the usual order: access modifier, class-level modifier, immutability modifier. It must be readable wherever Record825 is accessible.",
+        type: "wordBank",
+        code: "class Record825 {\n    {{0}} {{1}} {{2}} int LIMIT = 825;\n}",
+        bank: ["private","protected","void","abstract","public","static","final"],
+        slots: [{"answer":4},{"answer":5},{"answer":6}],
+        explanation: "Use public for access, static for a class field, and final to prevent reassignment. The declaration uses the conventional modifier order."
+      },
+      {
+        group: 3,
+        topic: "Package accessibility",
+        difficulty: 2,
+        prompt: "An unrelated class in the same package needs to call read() for a rental register 827. Which statement is true?",
+        code: "class Record826 {\n    public int read() { return 826; }\n}",
+        choices: ["It must extend the class first.","It must be in a different package.","It can call read() only through the class name.","It can create the object and call read()."],
+        answer: 3,
+        explanation: "The class has package access, so any class in that package can create an instance and call its public method."
+      },
+      {
+        group: 3,
+        topic: "Inheritance and overriding",
+        difficulty: 3,
+        prompt: "Extend the transit manifest 828 class and base the child’s result on the parent calculation.",
+        type: "wordBank",
+        code: "class Record827 {\n    final int base;\n    Record827(int base) { this.base = base; }\n    int rate() { return base; }\n}\nclass Priority {{0}} Record827 {\n    Priority(int base) { {{1}}(base); }\n    @Override int rate() { return {{2}} + 5; }\n}\nint result = new Priority(827).rate();",
+        bank: ["implements","this","this.rate()","Record827.rate()","extends","super","super.rate()"],
+        slots: [{"answer":4},{"answer":5},{"answer":6}],
+        explanation: "extends creates the subclass, super(base) calls the parent constructor, and super.rate() calls the original method."
+      },
+      {
+        group: 3,
+        topic: "Runtime method dispatch",
+        difficulty: 3,
+        prompt: "What rate does the clinic schedule 829 use through its parent-typed reference?",
+        code: "class Record828 { int rate() { return 828; } }\nclass Special extends Record828 {\n    @Override int rate() { return 838; }\n}\nRecord828 item = new Special();\nint rate = item.rate();",
+        choices: ["10","848","838","828"],
+        answer: 2,
+        explanation: "The runtime object is Special. An overridden instance method is selected from the runtime class."
+      },
+      {
+        group: 3,
+        topic: "Resolving overloads",
+        difficulty: 3,
+        prompt: "Which overloaded method handles the field inventory 830 value?",
+        code: "class Record829 {\n    String read(int value) { return \"int\"; }\n    String read(long value) { return \"long\"; }\n    String read(double value) { return \"double\"; }\n}\nString kind = new Record829().read(829);",
+        choices: ["Ambiguous call","int","long","double"],
+        answer: 1,
+        explanation: "The argument’s compile-time type chooses the overload. An L suffix makes an integer literal a long."
+      },
+      {
+        group: 3,
+        topic: "Java pass-by-value",
+        difficulty: 2,
+        prompt: "What are the updated value and the original total after processing the supply ledger 831?",
+        code: "class Record830 {\n    int update(int total) {\n        total += 2;\n        return total;\n    }\n}\nint total = 830;\nint updated = new Record830().update(total);",
+        choices: ["832, 830","832, 832","830, 830","830, 832"],
+        answer: 0,
+        explanation: "The parameter gets a copy of the caller’s value. The new number is returned, but the original variable is unchanged."
+      },
+      {
+        group: 3,
+        topic: "Interfaces and polymorphism",
+        difficulty: 3,
+        prompt: "Make the institute roster 832 implementation available through its interface type.",
+        type: "dropdown",
+        code: "interface Countable { int count(); }\nclass Record831 {{0}} Countable {\n    {{1}} int count() { return 838; }\n}\nCountable item = new Record831();\nint result = item.count();",
+        slots: [{"choices":["instanceof","implements","extends"],"answer":1},{"choices":["public","private","protected"],"answer":0}],
+        explanation: "A class implements an interface. It implements the interface’s public method with public access."
+      },
+      {
+        group: 3,
+        topic: "Constructor and instance methods",
+        difficulty: 2,
+        prompt: "Create a Record832 for the workshop ticket 833, store the starting count, and call its read method.",
+        type: "dropdown",
+        code: "class Record832 {\n    private int count;\n    Record832(int count) { {{0}} = count; }\n    int read(int extra) { return count + extra; }\n}\nRecord832 item = {{1}};\nint value = {{2}};",
+        slots: [{"choices":["Record832.count","this.count","count"],"answer":1},{"choices":["new Record832(832)","Record832(832)","new Record832()"],"answer":0},{"choices":["item.read()","Record832.read(3)","item.read(3)"],"answer":2}],
+        explanation: "this.count is the field. new calls the constructor. The instance reference is used to call read with its argument."
+      },
+      {
+        group: 3,
+        topic: "Static and instance state",
+        difficulty: 3,
+        prompt: "What are the first object’s units and the shared total for the shipment scan 834?",
+        code: "// Class and caller are in the same package.\nclass Record833 {\n    static int total;\n    int units;\n    Record833(int units) {\n        this.units = units;\n        total += units;\n    }\n}\n// Caller\nRecord833 first = new Record833(833);\nRecord833 second = new Record833(8);",
+        choices: ["841, 833","833, 833","833, 841","8, 841"],
+        answer: 2,
+        explanation: "units belongs to each instance. Both constructor calls update the same static total."
+      },
+      {
+        group: 3,
+        topic: "Class constants",
+        difficulty: 2,
+        prompt: "Declare LIMIT for the museum admission 835 in the usual order: access modifier, class-level modifier, immutability modifier. It must be readable wherever Record834 is accessible.",
+        type: "wordBank",
+        code: "class Record834 {\n    {{0}} {{1}} {{2}} int LIMIT = 834;\n}",
+        bank: ["private","protected","void","abstract","public","static","final"],
+        slots: [{"answer":4},{"answer":5},{"answer":6}],
+        explanation: "Use public for access, static for a class field, and final to prevent reassignment. The declaration uses the conventional modifier order."
+      },
+      {
+        group: 3,
+        topic: "Package accessibility",
+        difficulty: 2,
+        prompt: "An unrelated class in the same package needs to call read() for a rental register 836. Which statement is true?",
+        code: "class Record835 {\n    public int read() { return 835; }\n}",
+        choices: ["It must be in a different package.","It can call read() only through the class name.","It can create the object and call read().","It must extend the class first."],
+        answer: 2,
+        explanation: "The class has package access, so any class in that package can create an instance and call its public method."
+      },
+      {
+        group: 3,
+        topic: "Inheritance and overriding",
+        difficulty: 3,
+        prompt: "Extend the transit manifest 837 class and base the child’s result on the parent calculation.",
+        type: "wordBank",
+        code: "class Record836 {\n    final int base;\n    Record836(int base) { this.base = base; }\n    int rate() { return base; }\n}\nclass Priority {{0}} Record836 {\n    Priority(int base) { {{1}}(base); }\n    @Override int rate() { return {{2}} + 5; }\n}\nint result = new Priority(836).rate();",
+        bank: ["implements","this","this.rate()","Record836.rate()","extends","super","super.rate()"],
+        slots: [{"answer":4},{"answer":5},{"answer":6}],
+        explanation: "extends creates the subclass, super(base) calls the parent constructor, and super.rate() calls the original method."
+      },
+      {
+        group: 3,
+        topic: "Runtime method dispatch",
+        difficulty: 3,
+        prompt: "What rate does the clinic schedule 838 use through its parent-typed reference?",
+        code: "class Record837 { int rate() { return 837; } }\nclass Special extends Record837 {\n    @Override int rate() { return 847; }\n}\nRecord837 item = new Special();\nint rate = item.rate();",
+        choices: ["857","847","837","10"],
+        answer: 1,
+        explanation: "The runtime object is Special. An overridden instance method is selected from the runtime class."
+      },
+      {
+        group: 3,
+        topic: "Resolving overloads",
+        difficulty: 3,
+        prompt: "Which overloaded method handles the field inventory 839 value?",
+        code: "class Record838 {\n    String read(int value) { return \"int\"; }\n    String read(long value) { return \"long\"; }\n    String read(double value) { return \"double\"; }\n}\nString kind = new Record838().read(838);",
+        choices: ["int","long","double","Ambiguous call"],
+        answer: 0,
+        explanation: "The argument’s compile-time type chooses the overload. An L suffix makes an integer literal a long."
+      },
+      {
+        group: 3,
+        topic: "Java pass-by-value",
+        difficulty: 2,
+        prompt: "What are the updated value and the original total after processing the supply ledger 840?",
+        code: "class Record839 {\n    int update(int total) {\n        total += 2;\n        return total;\n    }\n}\nint total = 839;\nint updated = new Record839().update(total);",
+        choices: ["841, 841","839, 839","839, 841","841, 839"],
+        answer: 3,
+        explanation: "The parameter gets a copy of the caller’s value. The new number is returned, but the original variable is unchanged."
+      },
+      {
+        group: 3,
+        topic: "Interfaces and polymorphism",
+        difficulty: 3,
+        prompt: "Make the institute roster 841 implementation available through its interface type.",
+        type: "dropdown",
+        code: "interface Countable { int count(); }\nclass Record840 {{0}} Countable {\n    {{1}} int count() { return 847; }\n}\nCountable item = new Record840();\nint result = item.count();",
+        slots: [{"choices":["extends","instanceof","implements"],"answer":2},{"choices":["protected","public","private"],"answer":1}],
+        explanation: "A class implements an interface. It implements the interface’s public method with public access."
+      },
+      {
+        group: 3,
+        topic: "Constructor and instance methods",
+        difficulty: 2,
+        prompt: "Create a Record841 for the workshop ticket 842, store the starting count, and call its read method.",
+        type: "dropdown",
+        code: "class Record841 {\n    private int count;\n    Record841(int count) { {{0}} = count; }\n    int read(int extra) { return count + extra; }\n}\nRecord841 item = {{1}};\nint value = {{2}};",
+        slots: [{"choices":["count","Record841.count","this.count"],"answer":2},{"choices":["new Record841()","new Record841(841)","Record841(841)"],"answer":1},{"choices":["item.read(3)","item.read()","Record841.read(3)"],"answer":0}],
+        explanation: "this.count is the field. new calls the constructor. The instance reference is used to call read with its argument."
+      },
+      {
+        group: 3,
+        topic: "Static and instance state",
+        difficulty: 3,
+        prompt: "What are the first object’s units and the shared total for the shipment scan 843?",
+        code: "// Class and caller are in the same package.\nclass Record842 {\n    static int total;\n    int units;\n    Record842(int units) {\n        this.units = units;\n        total += units;\n    }\n}\n// Caller\nRecord842 first = new Record842(842);\nRecord842 second = new Record842(8);",
+        choices: ["842, 842","842, 850","8, 850","850, 842"],
+        answer: 1,
+        explanation: "units belongs to each instance. Both constructor calls update the same static total."
+      },
+      {
+        group: 3,
+        topic: "Class constants",
+        difficulty: 2,
+        prompt: "Declare LIMIT for the museum admission 844 in the usual order: access modifier, class-level modifier, immutability modifier. It must be readable wherever Record843 is accessible.",
+        type: "wordBank",
+        code: "class Record843 {\n    {{0}} {{1}} {{2}} int LIMIT = 843;\n}",
+        bank: ["private","protected","void","abstract","public","static","final"],
+        slots: [{"answer":4},{"answer":5},{"answer":6}],
+        explanation: "Use public for access, static for a class field, and final to prevent reassignment. The declaration uses the conventional modifier order."
+      },
+      {
+        group: 3,
+        topic: "Package accessibility",
+        difficulty: 2,
+        prompt: "An unrelated class in the same package needs to call read() for a rental register 845. Which statement is true?",
+        code: "class Record844 {\n    public int read() { return 844; }\n}",
+        choices: ["It can call read() only through the class name.","It can create the object and call read().","It must extend the class first.","It must be in a different package."],
+        answer: 1,
+        explanation: "The class has package access, so any class in that package can create an instance and call its public method."
+      },
+      {
+        group: 4,
+        topic: "Reading stack traces",
+        difficulty: 2,
+        prompt: "Where was the exception first reported inside the shipment scan 846 application?",
+        code: "Exception in thread \"main\" java.lang.ArrayIndexOutOfBoundsException\n    at Record845.read(Record845.java:845)\n    at Record845.open(Record845.java:12)\n    at Record845.main(Record845.java:8)",
+        choices: ["There is no source location in the trace.","read, line 845","open, line 12","main, line 8"],
+        answer: 1,
+        explanation: "The first stack frame identifies the application method and line where the exception was thrown. The following frames show its callers."
+      },
+      {
+        group: 4,
+        topic: "Compile-time, runtime, and logic errors",
+        difficulty: 2,
+        prompt: "The museum admission 847 program should calculate a value. What kind of defect appears in this snippet?",
+        code: "int total = 846;\nint scaled = total * 4",
+        choices: ["No defect in this snippet","Compile-time syntax error","Runtime bounds error","Logic error for the requested addition"],
+        answer: 1,
+        explanation: "The assignment is missing a semicolon."
+      },
+      {
+        group: 4,
+        topic: "Specific and general exception handlers",
+        difficulty: 3,
+        prompt: "Record an invalid rental register 848 code separately from other runtime failures.",
+        type: "dropdown",
+        code: "String category;\ntry {\n    Integer.parseInt(\"847CODEMQ\");\n    category = \"valid\";\n} catch ({{0}} ex) {\n    category = \"invalid integer\";\n} catch ({{1}} ex) {\n    category = \"other\";\n}",
+        slots: [{"choices":["ArithmeticException","NumberFormatException","NullPointerException"],"answer":1},{"choices":["RuntimeException","ArithmeticException","Error"],"answer":0}],
+        explanation: "The invalid text throws NumberFormatException. Catch that specific failure before the broader RuntimeException handler."
+      },
+      {
+        group: 4,
+        topic: "Exception handlers and finally",
+        difficulty: 3,
+        prompt: "What text is produced by the transit manifest 849 calculation?",
+        code: "int divisor = 5;\nStringBuilder text = new StringBuilder();\ntry {\n    text.append(848 / divisor);\n} catch (ArithmeticException ex) {\n    text.append(\"error\");\n} finally {\n    text.append(\" done\");\n}",
+        choices: ["169 done","error done","169","848 done"],
+        answer: 0,
+        explanation: "Division succeeds and uses integer arithmetic. The finally block appends the suffix."
+      },
+      {
+        group: 4,
+        topic: "Displaying exception information",
+        difficulty: 3,
+        prompt: "Show the clinic schedule 850 failure’s message and print the stack trace on a separate call.",
+        type: "dropdown",
+        code: "Exception failure = new Exception(\"clinic schedule 850 849\");\nString message = failure.{{0}};\nif (10 < 0) failure.{{1}};",
+        slots: [{"choices":["getCause()","printStackTrace()","getMessage()"],"answer":2},{"choices":["getMessage()","printStackTrace()","getStackTrace()"],"answer":1}],
+        explanation: "getMessage returns the message string. Call printStackTrace directly to print the exception and its frames."
+      },
+      {
+        group: 4,
+        topic: "Reading stack traces",
+        difficulty: 2,
+        prompt: "Where was the exception first reported inside the supply ledger 851 application?",
+        code: "Exception in thread \"main\" java.lang.ArrayIndexOutOfBoundsException\n    at Record850.read(Record850.java:850)\n    at Record850.open(Record850.java:10)\n    at Record850.main(Record850.java:6)",
+        choices: ["main, line 6","There is no source location in the trace.","read, line 850","open, line 10"],
+        answer: 2,
+        explanation: "The first stack frame identifies the application method and line where the exception was thrown. The following frames show its callers."
+      },
+      {
+        group: 4,
+        topic: "Compile-time, runtime, and logic errors",
+        difficulty: 2,
+        prompt: "The institute roster 852 program should calculate a value. What kind of defect appears in this snippet?",
+        code: "int expected = 851 + 2;\nint result = 851 - 2;",
+        choices: ["Runtime bounds error","No defect in this snippet","Logic error for the requested addition","Compile-time syntax error"],
+        answer: 2,
+        explanation: "The code runs but subtracts where the requirement calls for addition."
+      },
+      {
+        group: 4,
+        topic: "Specific and general exception handlers",
+        difficulty: 3,
+        prompt: "Record an invalid locker assignment 853 code separately from other runtime failures.",
+        type: "dropdown",
+        code: "String category;\ntry {\n    Integer.parseInt(\"852CODEMV\");\n    category = \"valid\";\n} catch ({{0}} ex) {\n    category = \"invalid integer\";\n} catch ({{1}} ex) {\n    category = \"other\";\n}",
+        slots: [{"choices":["ArithmeticException","NumberFormatException","NullPointerException"],"answer":1},{"choices":["RuntimeException","ArithmeticException","Error"],"answer":0}],
+        explanation: "The invalid text throws NumberFormatException. Catch that specific failure before the broader RuntimeException handler."
+      },
+      {
+        group: 4,
+        topic: "Exception handlers and finally",
+        difficulty: 3,
+        prompt: "What text is produced by the workshop ticket 854 calculation?",
+        code: "int divisor = 3;\nStringBuilder text = new StringBuilder();\ntry {\n    text.append(853 / divisor);\n} catch (ArithmeticException ex) {\n    text.append(\"error\");\n} finally {\n    text.append(\" done\");\n}",
+        choices: ["853 done","284 done","error done","284"],
+        answer: 1,
+        explanation: "Division succeeds and uses integer arithmetic. The finally block appends the suffix."
+      },
+      {
+        group: 4,
+        topic: "Displaying exception information",
+        difficulty: 3,
+        prompt: "Show the shipment scan 855 failure’s message and print the stack trace on a separate call.",
+        type: "dropdown",
+        code: "Exception failure = new Exception(\"shipment scan 855 854\");\nString message = failure.{{0}};\nif (8 < 0) failure.{{1}};",
+        slots: [{"choices":["getCause()","printStackTrace()","getMessage()"],"answer":2},{"choices":["getMessage()","printStackTrace()","getStackTrace()"],"answer":1}],
+        explanation: "getMessage returns the message string. Call printStackTrace directly to print the exception and its frames."
+      },
+      {
+        group: 4,
+        topic: "Reading stack traces",
+        difficulty: 2,
+        prompt: "Where was the exception first reported inside the rental register 856 application?",
+        code: "Exception in thread \"main\" java.lang.ArrayIndexOutOfBoundsException\n    at Record855.read(Record855.java:855)\n    at Record855.open(Record855.java:8)\n    at Record855.main(Record855.java:4)",
+        choices: ["open, line 8","main, line 4","There is no source location in the trace.","read, line 855"],
+        answer: 3,
+        explanation: "The first stack frame identifies the application method and line where the exception was thrown. The following frames show its callers."
+      },
+      {
+        group: 4,
+        topic: "Compile-time, runtime, and logic errors",
+        difficulty: 2,
+        prompt: "The transit manifest 857 program should calculate a value. What kind of defect appears in this snippet?",
+        code: "int[] values = {856};\nint selected = values[9];",
+        choices: ["Compile-time syntax error","Logic error for the requested addition","No defect in this snippet","Runtime bounds error"],
+        answer: 3,
+        explanation: "The code compiles. The array has only index zero, so the access throws at runtime."
+      },
+      {
+        group: 4,
+        topic: "Specific and general exception handlers",
+        difficulty: 3,
+        prompt: "Record an invalid clinic schedule 858 code separately from other runtime failures.",
+        type: "dropdown",
+        code: "String category;\ntry {\n    Integer.parseInt(\"857CODEN0\");\n    category = \"valid\";\n} catch ({{0}} ex) {\n    category = \"invalid integer\";\n} catch ({{1}} ex) {\n    category = \"other\";\n}",
+        slots: [{"choices":["ArithmeticException","NumberFormatException","NullPointerException"],"answer":1},{"choices":["RuntimeException","ArithmeticException","Error"],"answer":0}],
+        explanation: "The invalid text throws NumberFormatException. Catch that specific failure before the broader RuntimeException handler."
+      },
+      {
+        group: 4,
+        topic: "Exception handlers and finally",
+        difficulty: 3,
+        prompt: "What text is produced by the field inventory 859 calculation?",
+        code: "int divisor = 0;\nStringBuilder text = new StringBuilder();\ntry {\n    text.append(858 / divisor);\n} catch (ArithmeticException ex) {\n    text.append(\"error\");\n} finally {\n    text.append(\" done\");\n}",
+        choices: ["0 done","The code does not compile","error done","error"],
+        answer: 2,
+        explanation: "Integer division by zero enters the arithmetic exception handler. The finally block appends the suffix afterward."
+      },
+      {
+        group: 4,
+        topic: "Displaying exception information",
+        difficulty: 3,
+        prompt: "Show the supply ledger 860 failure’s message and print the stack trace on a separate call.",
+        type: "dropdown",
+        code: "Exception failure = new Exception(\"supply ledger 860 859\");\nString message = failure.{{0}};\nif (6 < 0) failure.{{1}};",
+        slots: [{"choices":["getCause()","printStackTrace()","getMessage()"],"answer":2},{"choices":["getMessage()","printStackTrace()","getStackTrace()"],"answer":1}],
+        explanation: "getMessage returns the message string. Call printStackTrace directly to print the exception and its frames."
+      },
+      {
+        group: 4,
+        topic: "Reading stack traces",
+        difficulty: 2,
+        prompt: "Where was the exception first reported inside the locker assignment 861 application?",
+        code: "Exception in thread \"main\" java.lang.ArrayIndexOutOfBoundsException\n    at Record860.read(Record860.java:860)\n    at Record860.open(Record860.java:6)\n    at Record860.main(Record860.java:2)",
+        choices: ["read, line 860","open, line 6","main, line 2","There is no source location in the trace."],
+        answer: 0,
+        explanation: "The first stack frame identifies the application method and line where the exception was thrown. The following frames show its callers."
+      },
+      {
+        group: 4,
+        topic: "Compile-time, runtime, and logic errors",
+        difficulty: 2,
+        prompt: "The workshop ticket 862 program should calculate a value. What kind of defect appears in this snippet?",
+        code: "int total = 861;\nint scaled = total * 7",
+        choices: ["Compile-time syntax error","Runtime bounds error","Logic error for the requested addition","No defect in this snippet"],
+        answer: 0,
+        explanation: "The assignment is missing a semicolon."
+      },
+      {
+        group: 4,
+        topic: "Specific and general exception handlers",
+        difficulty: 3,
+        prompt: "Record an invalid shipment scan 863 code separately from other runtime failures.",
+        type: "dropdown",
+        code: "String category;\ntry {\n    Integer.parseInt(\"862CODEN5\");\n    category = \"valid\";\n} catch ({{0}} ex) {\n    category = \"invalid integer\";\n} catch ({{1}} ex) {\n    category = \"other\";\n}",
+        slots: [{"choices":["ArithmeticException","NumberFormatException","NullPointerException"],"answer":1},{"choices":["RuntimeException","ArithmeticException","Error"],"answer":0}],
+        explanation: "The invalid text throws NumberFormatException. Catch that specific failure before the broader RuntimeException handler."
+      },
+      {
+        group: 4,
+        topic: "Exception handlers and finally",
+        difficulty: 3,
+        prompt: "What text is produced by the museum admission 864 calculation?",
+        code: "int divisor = 0;\nStringBuilder text = new StringBuilder();\ntry {\n    text.append(863 / divisor);\n} catch (ArithmeticException ex) {\n    text.append(\"error\");\n} finally {\n    text.append(\" done\");\n}",
+        choices: ["error","0 done","The code does not compile","error done"],
+        answer: 3,
+        explanation: "Integer division by zero enters the arithmetic exception handler. The finally block appends the suffix afterward."
+      },
+      {
+        group: 4,
+        topic: "Displaying exception information",
+        difficulty: 3,
+        prompt: "Show the rental register 865 failure’s message and print the stack trace on a separate call.",
+        type: "dropdown",
+        code: "Exception failure = new Exception(\"rental register 865 864\");\nString message = failure.{{0}};\nif (4 < 0) failure.{{1}};",
+        slots: [{"choices":["getCause()","printStackTrace()","getMessage()"],"answer":2},{"choices":["getMessage()","printStackTrace()","getStackTrace()"],"answer":1}],
+        explanation: "getMessage returns the message string. Call printStackTrace directly to print the exception and its frames."
+      },
+      {
+        group: 4,
+        topic: "Reading stack traces",
+        difficulty: 2,
+        prompt: "Where was the exception first reported inside the clinic schedule 866 application?",
+        code: "Exception in thread \"main\" java.lang.ArrayIndexOutOfBoundsException\n    at Record865.read(Record865.java:865)\n    at Record865.open(Record865.java:13)\n    at Record865.main(Record865.java:9)",
+        choices: ["There is no source location in the trace.","read, line 865","open, line 13","main, line 9"],
+        answer: 1,
+        explanation: "The first stack frame identifies the application method and line where the exception was thrown. The following frames show its callers."
+      },
+      {
+        group: 4,
+        topic: "Compile-time, runtime, and logic errors",
+        difficulty: 2,
+        prompt: "The field inventory 867 program should calculate a value. What kind of defect appears in this snippet?",
+        code: "int expected = 866 + 5;\nint result = 866 - 5;",
+        choices: ["No defect in this snippet","Logic error for the requested addition","Compile-time syntax error","Runtime bounds error"],
+        answer: 1,
+        explanation: "The code runs but subtracts where the requirement calls for addition."
+      },
+      {
+        group: 4,
+        topic: "Specific and general exception handlers",
+        difficulty: 3,
+        prompt: "Record an invalid supply ledger 868 code separately from other runtime failures.",
+        type: "dropdown",
+        code: "String category;\ntry {\n    Integer.parseInt(\"867CODENA\");\n    category = \"valid\";\n} catch ({{0}} ex) {\n    category = \"invalid integer\";\n} catch ({{1}} ex) {\n    category = \"other\";\n}",
+        slots: [{"choices":["ArithmeticException","NumberFormatException","NullPointerException"],"answer":1},{"choices":["RuntimeException","ArithmeticException","Error"],"answer":0}],
+        explanation: "The invalid text throws NumberFormatException. Catch that specific failure before the broader RuntimeException handler."
+      },
+      {
+        group: 4,
+        topic: "Exception handlers and finally",
+        difficulty: 3,
+        prompt: "What text is produced by the institute roster 869 calculation?",
+        code: "int divisor = 0;\nStringBuilder text = new StringBuilder();\ntry {\n    text.append(868 / divisor);\n} catch (ArithmeticException ex) {\n    text.append(\"error\");\n} finally {\n    text.append(\" done\");\n}",
+        choices: ["error done","error","0 done","The code does not compile"],
+        answer: 0,
+        explanation: "Integer division by zero enters the arithmetic exception handler. The finally block appends the suffix afterward."
+      },
+      {
+        group: 4,
+        topic: "Displaying exception information",
+        difficulty: 3,
+        prompt: "Show the locker assignment 870 failure’s message and print the stack trace on a separate call.",
+        type: "dropdown",
+        code: "Exception failure = new Exception(\"locker assignment 870 869\");\nString message = failure.{{0}};\nif (2 < 0) failure.{{1}};",
+        slots: [{"choices":["getCause()","printStackTrace()","getMessage()"],"answer":2},{"choices":["getMessage()","printStackTrace()","getStackTrace()"],"answer":1}],
+        explanation: "getMessage returns the message string. Call printStackTrace directly to print the exception and its frames."
+      },
+      {
+        group: 4,
+        topic: "Reading stack traces",
+        difficulty: 2,
+        prompt: "Where was the exception first reported inside the shipment scan 871 application?",
+        code: "Exception in thread \"main\" java.lang.ArrayIndexOutOfBoundsException\n    at Record870.read(Record870.java:870)\n    at Record870.open(Record870.java:11)\n    at Record870.main(Record870.java:7)",
+        choices: ["main, line 7","There is no source location in the trace.","read, line 870","open, line 11"],
+        answer: 2,
+        explanation: "The first stack frame identifies the application method and line where the exception was thrown. The following frames show its callers."
+      },
+      {
+        group: 4,
+        topic: "Compile-time, runtime, and logic errors",
+        difficulty: 2,
+        prompt: "The museum admission 872 program should calculate a value. What kind of defect appears in this snippet?",
+        code: "int[] values = {871};\nint selected = values[3];",
+        choices: ["Logic error for the requested addition","No defect in this snippet","Runtime bounds error","Compile-time syntax error"],
+        answer: 2,
+        explanation: "The code compiles. The array has only index zero, so the access throws at runtime."
+      },
+      {
+        group: 4,
+        topic: "Specific and general exception handlers",
+        difficulty: 3,
+        prompt: "Record an invalid rental register 873 code separately from other runtime failures.",
+        type: "dropdown",
+        code: "String category;\ntry {\n    Integer.parseInt(\"872CODENF\");\n    category = \"valid\";\n} catch ({{0}} ex) {\n    category = \"invalid integer\";\n} catch ({{1}} ex) {\n    category = \"other\";\n}",
+        slots: [{"choices":["ArithmeticException","NumberFormatException","NullPointerException"],"answer":1},{"choices":["RuntimeException","ArithmeticException","Error"],"answer":0}],
+        explanation: "The invalid text throws NumberFormatException. Catch that specific failure before the broader RuntimeException handler."
+      },
+      {
+        group: 4,
+        topic: "Exception handlers and finally",
+        difficulty: 3,
+        prompt: "What text is produced by the transit manifest 874 calculation?",
+        code: "int divisor = 0;\nStringBuilder text = new StringBuilder();\ntry {\n    text.append(873 / divisor);\n} catch (ArithmeticException ex) {\n    text.append(\"error\");\n} finally {\n    text.append(\" done\");\n}",
+        choices: ["The code does not compile","error done","error","0 done"],
+        answer: 1,
+        explanation: "Integer division by zero enters the arithmetic exception handler. The finally block appends the suffix afterward."
+      },
+      {
+        group: 4,
+        topic: "Displaying exception information",
+        difficulty: 3,
+        prompt: "Show the clinic schedule 875 failure’s message and print the stack trace on a separate call.",
+        type: "dropdown",
+        code: "Exception failure = new Exception(\"clinic schedule 875 874\");\nString message = failure.{{0}};\nif (9 < 0) failure.{{1}};",
+        slots: [{"choices":["getCause()","printStackTrace()","getMessage()"],"answer":2},{"choices":["getMessage()","printStackTrace()","getStackTrace()"],"answer":1}],
+        explanation: "getMessage returns the message string. Call printStackTrace directly to print the exception and its frames."
+      },
+      {
+        group: 4,
+        topic: "Reading stack traces",
+        difficulty: 2,
+        prompt: "Where was the exception first reported inside the supply ledger 876 application?",
+        code: "Exception in thread \"main\" java.lang.ArrayIndexOutOfBoundsException\n    at Record875.read(Record875.java:875)\n    at Record875.open(Record875.java:9)\n    at Record875.main(Record875.java:5)",
+        choices: ["open, line 9","main, line 5","There is no source location in the trace.","read, line 875"],
+        answer: 3,
+        explanation: "The first stack frame identifies the application method and line where the exception was thrown. The following frames show its callers."
+      },
+      {
+        group: 4,
+        topic: "Compile-time, runtime, and logic errors",
+        difficulty: 2,
+        prompt: "The institute roster 877 program should calculate a value. What kind of defect appears in this snippet?",
+        code: "int total = 876;\nint scaled = total * 10",
+        choices: ["Runtime bounds error","Logic error for the requested addition","No defect in this snippet","Compile-time syntax error"],
+        answer: 3,
+        explanation: "The assignment is missing a semicolon."
+      },
+      {
+        group: 4,
+        topic: "Specific and general exception handlers",
+        difficulty: 3,
+        prompt: "Record an invalid locker assignment 878 code separately from other runtime failures.",
+        type: "dropdown",
+        code: "String category;\ntry {\n    Integer.parseInt(\"877CODENK\");\n    category = \"valid\";\n} catch ({{0}} ex) {\n    category = \"invalid integer\";\n} catch ({{1}} ex) {\n    category = \"other\";\n}",
+        slots: [{"choices":["ArithmeticException","NumberFormatException","NullPointerException"],"answer":1},{"choices":["RuntimeException","ArithmeticException","Error"],"answer":0}],
+        explanation: "The invalid text throws NumberFormatException. Catch that specific failure before the broader RuntimeException handler."
+      },
+      {
+        group: 4,
+        topic: "Exception handlers and finally",
+        difficulty: 3,
+        prompt: "What text is produced by the workshop ticket 879 calculation?",
+        code: "int divisor = 0;\nStringBuilder text = new StringBuilder();\ntry {\n    text.append(878 / divisor);\n} catch (ArithmeticException ex) {\n    text.append(\"error\");\n} finally {\n    text.append(\" done\");\n}",
+        choices: ["0 done","The code does not compile","error done","error"],
+        answer: 2,
+        explanation: "Integer division by zero enters the arithmetic exception handler. The finally block appends the suffix afterward."
+      },
+      {
+        group: 4,
+        topic: "Displaying exception information",
+        difficulty: 3,
+        prompt: "Show the shipment scan 880 failure’s message and print the stack trace on a separate call.",
+        type: "dropdown",
+        code: "Exception failure = new Exception(\"shipment scan 880 879\");\nString message = failure.{{0}};\nif (7 < 0) failure.{{1}};",
+        slots: [{"choices":["getCause()","printStackTrace()","getMessage()"],"answer":2},{"choices":["getMessage()","printStackTrace()","getStackTrace()"],"answer":1}],
+        explanation: "getMessage returns the message string. Call printStackTrace directly to print the exception and its frames."
+      },
+      {
+        group: 4,
+        topic: "Reading stack traces",
+        difficulty: 2,
+        prompt: "Where was the exception first reported inside the rental register 881 application?",
+        code: "Exception in thread \"main\" java.lang.ArrayIndexOutOfBoundsException\n    at Record880.read(Record880.java:880)\n    at Record880.open(Record880.java:7)\n    at Record880.main(Record880.java:3)",
+        choices: ["read, line 880","open, line 7","main, line 3","There is no source location in the trace."],
+        answer: 0,
+        explanation: "The first stack frame identifies the application method and line where the exception was thrown. The following frames show its callers."
+      },
+      {
+        group: 4,
+        topic: "Compile-time, runtime, and logic errors",
+        difficulty: 2,
+        prompt: "The transit manifest 882 program should calculate a value. What kind of defect appears in this snippet?",
+        code: "int expected = 881 + 8;\nint result = 881 - 8;",
+        choices: ["Logic error for the requested addition","Compile-time syntax error","Runtime bounds error","No defect in this snippet"],
+        answer: 0,
+        explanation: "The code runs but subtracts where the requirement calls for addition."
+      },
+      {
+        group: 4,
+        topic: "Specific and general exception handlers",
+        difficulty: 3,
+        prompt: "Record an invalid clinic schedule 883 code separately from other runtime failures.",
+        type: "dropdown",
+        code: "String category;\ntry {\n    Integer.parseInt(\"882CODENP\");\n    category = \"valid\";\n} catch ({{0}} ex) {\n    category = \"invalid integer\";\n} catch ({{1}} ex) {\n    category = \"other\";\n}",
+        slots: [{"choices":["ArithmeticException","NumberFormatException","NullPointerException"],"answer":1},{"choices":["RuntimeException","ArithmeticException","Error"],"answer":0}],
+        explanation: "The invalid text throws NumberFormatException. Catch that specific failure before the broader RuntimeException handler."
+      },
+      {
+        group: 4,
+        topic: "Exception handlers and finally",
+        difficulty: 3,
+        prompt: "What text is produced by the field inventory 884 calculation?",
+        code: "int divisor = 9;\nStringBuilder text = new StringBuilder();\ntry {\n    text.append(883 / divisor);\n} catch (ArithmeticException ex) {\n    text.append(\"error\");\n} finally {\n    text.append(\" done\");\n}",
+        choices: ["error done","98","883 done","98 done"],
+        answer: 3,
+        explanation: "Division succeeds and uses integer arithmetic. The finally block appends the suffix."
+      },
+      {
+        group: 4,
+        topic: "Displaying exception information",
+        difficulty: 3,
+        prompt: "Show the supply ledger 885 failure’s message and print the stack trace on a separate call.",
+        type: "dropdown",
+        code: "Exception failure = new Exception(\"supply ledger 885 884\");\nString message = failure.{{0}};\nif (5 < 0) failure.{{1}};",
+        slots: [{"choices":["getCause()","printStackTrace()","getMessage()"],"answer":2},{"choices":["getMessage()","printStackTrace()","getStackTrace()"],"answer":1}],
+        explanation: "getMessage returns the message string. Call printStackTrace directly to print the exception and its frames."
+      }
     ]
   };
 
   return Object.fromEntries(Object.entries(additions).map(([id, questions]) => [
     id,
-    window.practiceBanks[id].map((question, index) => ({ ...question, group: baseGroups[id][index] })).concat(questions)
+    (window.practiceBanks[id] ?? []).map((question, index) => ({ ...question, group: baseGroups[id][index] })).concat(questions)
   ]));
 })();

@@ -277,6 +277,7 @@ code, pre, .bank-tile, .code-select, .code-slot {
 .modal { width: min(640px, calc(100% - 25px)); max-height: calc(100% - 30px); padding: 23px; border: 1px solid var(--line); border-radius: 13px; color: var(--ink); box-shadow: 0 15px 50px #11273040; }
 .modal::backdrop { background: #122b35a3; }
 .modal p { margin-top: 10px; color: var(--muted); }
+.modal .filter-group { flex-wrap: wrap; margin-top: 12px; }
 .overview-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 7px; max-height: 45vh; overflow: auto; padding: 4px; margin-top: 9px; }
 .overview-item { display: grid; gap: 2px; padding: 7px 5px; text-align: center; }
 .overview-item span { font-size: .83rem; font-weight: 400; color: var(--muted); }

@@ -20,7 +20,14 @@
   function load() {
     try {
       const saved = JSON.parse(localStorage.getItem(storageKey));
-      if (saved?.attempts && saved?.testingOrders) return saved;
+      if (saved?.attempts && saved?.testingOrders) {
+        const previousSimulation = saved.attempts[4];
+        if (previousSimulation?.simulation && !saved.attempts[6]) {
+          saved.attempts[6] = { ...previousSimulation, examId: 6, testingPoolId: 4 };
+          delete saved.attempts[4];
+        }
+        return saved;
+      }
     } catch (error) {
       if (!(error instanceof SyntaxError)) saveAvailable = false;
     }
@@ -72,16 +79,20 @@
     for (const saved of Object.values(state.attempts)) expire(saved);
     let screen = exam ? name : 'home';
     const attempt = state.attempts[exam?.id];
+    if (exam?.id === 4 && !attempt && state.attempts[6]?.testingPoolId === 4 && (screen === 'take' || screen === 'results')) {
+      location.replace(destination(screen, 6));
+      return;
+    }
     if ((screen === 'take' || screen === 'results') && !attempt) screen = 'exam';
     if (screen === 'take' && attempt.submitted) screen = 'results';
     if (screen === 'results' && !attempt.submitted) screen = 'take';
     if (view?.screen !== screen || view?.exam !== exam) {
       bankSelection = null;
-      if (screen === 'setup') mode = 'training';
+      if (screen === 'setup') mode = exam.testingOnly ? 'testing' : 'training';
       if (screen === 'results') resultFilter = 'review';
     }
     const takingOrReviewing = screen === 'take' || screen === 'results';
-    const questions = takingOrReviewing && attempt.mode === 'testing' ? testingBanks[exam.id] : banks[exam?.id];
+    const questions = takingOrReviewing && attempt.mode === 'testing' ? testingBanks[attempt.testingPoolId ?? exam.id] : banks[exam?.id];
     view = { screen, exam, questions, attempt };
     if (modal.open) modal.close();
     render(true);
@@ -102,7 +113,7 @@
   function renderHome() {
     const rows = exams.map(exam => {
       const saved = state.attempts[exam.id];
-      const count = banks[exam.id].length;
+      const count = banks[exam.id]?.length;
       const status = saved ? `<span class="status-tag">${saved.submitted ? 'Completed' : 'In progress'}</span>` : '';
       return `<article class="exam-row">
         <span class="exam-number" aria-hidden="true">${exam.id}</span>
@@ -110,7 +121,7 @@
           <h3>${exam.title}</h3>
           <p>${exam.subtitle}</p>
         </div>
-        <div class="exam-meta"><span>${count} ${exam.testingSize ? 'Training questions' : 'questions'}</span>${exam.testingSize ? `<span>${exam.testingSize} per test</span>` : ''}${status}</div>
+        <div class="exam-meta">${exam.testingOnly ? '<span>Testing only</span>' : `<span>${count} ${exam.testingSize ? 'Training questions' : 'questions'}</span>`}${exam.testingSize ? `<span>${exam.testingSize} per test</span>` : ''}${status}</div>
         <a class="button secondary exam-action" aria-label="Open ${exam.title}" href="#exam/${exam.id}">${saved ? 'Open exam' : 'Start'}</a>
       </article>`;
     }).join('');
@@ -133,6 +144,11 @@
 
   function renderExam() {
     const { exam, questions, attempt } = view;
+    const attemptDetails = exam.testingOnly
+      ? `<p>Testing only · ${exam.testingSize} randomly drawn from ${testingBanks[exam.id].length}</p>`
+      : exam.testingSize
+        ? `<p>Training · ${questions.length} questions</p><p>Testing · ${exam.testingSize} randomly drawn from ${testingBanks[exam.id].length}</p>`
+        : `<p>${questions.length} questions · Training only</p>`;
     let saved = '';
     if (attempt) {
       const progress = engine.progress(attempt);
@@ -149,9 +165,7 @@
       ${storageNotice()}
       <div class="start-cards ${saved ? 'has-saved' : ''}">
         <article class="surface start-card">
-          <div><h2>New attempt</h2>${exam.testingSize
-            ? `<p>Training · ${questions.length} questions</p><p>${exam.simulation ? 'ITS Java simulation' : 'Testing'} · ${exam.testingSize} randomly drawn from ${testingBanks[exam.id].length}</p>`
-            : `<p>${questions.length} questions · Training only</p>`}</div>
+          <div><h2>New attempt</h2>${attemptDetails}</div>
           <a class="button primary" href="#setup/${exam.id}">New Test</a>
         </article>
         ${saved}
@@ -174,7 +188,8 @@
         <div><dt>${training ? 'Scoring' : simulation ? 'Practice target' : 'Passing score'}</dt><dd>${training ? 'First answers' : `${engine.passMark} / 1,000`}</dd></div>
       </dl>
       <p class="muted small">Each question counts once. For code completion, fill every blank correctly to earn the point.</p>
-      ${simulation ? '<p class="small">The timer starts when you select Start Exam. Answers and explanations appear after submission.</p>' : ''}`;
+      ${simulation ? `<p class="small">Each of the five ITS Java topic areas contributes ${exam.testingGroups[0]} questions. The topics are mixed throughout the exam.</p>
+      <p class="small">The timer starts when you select Start Exam. Answers and explanations appear after submission.</p>` : ''}`;
   }
 
   function updateSetup() {
@@ -190,13 +205,13 @@
       <section class="surface setup-panel" aria-label="Test settings">
         <div class="setup-fields">
           <label for="language-select">Language<select id="language-select"><option>English</option></select></label>
-          <label for="mode-select">Mode<select id="mode-select">
+          ${exam.testingOnly ? '<div><span class="small muted">Mode</span><p>Testing only</p></div>' : `<label for="mode-select">Mode<select id="mode-select">
             <option value="training" ${mode === 'training' ? 'selected' : ''}>Training</option>
             ${exam.minutes ? `<option value="testing" ${mode === 'testing' ? 'selected' : ''}>Testing</option>` : ''}
-          </select></label>
+          </select></label>`}
         </div>
         <div id="setup-facts">${setupFacts()}</div>
-        <div class="actions right"><a class="button secondary" href="#exam/${exam.id}">Cancel</a><button class="primary" data-action="start">Start Test</button></div>
+        <div class="actions right"><a class="button secondary" href="#exam/${exam.id}">Cancel</a><button class="primary" data-action="start">${exam.testingOnly ? 'Start Exam' : 'Start Test'}</button></div>
       </section>
     </div>`;
   }
@@ -441,18 +456,25 @@
     if (!modal.open) modal.showModal();
   }
 
-  function openOverview() {
+  function openOverview(filter = 'all') {
     const { attempt } = view;
     const progress = engine.progress(attempt);
     const list = attempt.cards.map((card, index) => {
+      const answered = card.response.every(value => value !== null);
+      if (filter === 'marked' && !card.marked) return '';
+      if (filter === 'unanswered' && answered) return '';
       const original = attempt.order.indexOf(card.questionIndex) + 1;
-      const status = card.marked ? 'Marked' : card.skipped ? 'Skipped' : card.response.every(value => value !== null) ? 'Answered' : 'Open';
+      const status = card.marked ? 'Marked' : card.skipped ? 'Skipped' : answered ? 'Answered' : 'Open';
       return `<button class="secondary overview-item" data-action="jump" data-index="${index}" ${index === attempt.current ? 'aria-current="step"' : ''}>
         <strong>${card.retry ? `Review ${original}` : `Q${original}`}</strong><span>${status}</span></button>`;
     }).join('');
     const unanswered = attempt.simulation ? `${progress.total - progress.answered} unanswered · ` : '';
     const details = `${progressLabel(progress)} · ${unanswered}${progress.marked} marked for review`;
-    dialog(attempt.simulation ? 'Exam Summary' : 'Question overview', `<p>${details}</p><div class="overview-grid">${list}</div>`,
+    const filters = attempt.simulation ? `<div class="filter-group" aria-label="Filter exam summary">
+      ${[['all', 'All questions'], ['unanswered', 'Unanswered'], ['marked', 'Marked for review']].map(([value, label]) =>
+        `<button class="secondary" data-action="summary-filter" data-filter="${value}" aria-pressed="${filter === value}">${label}</button>`).join('')}
+    </div>` : '';
+    dialog(attempt.simulation ? 'Exam Summary' : 'Question overview', `<p>${details}</p>${filters}${list ? `<div class="overview-grid">${list}</div>` : '<p>No questions match this filter.</p>'}`,
       attempt.simulation ? '<button class="secondary" data-action="close">Keep working</button><button class="primary" data-action="finish-from-summary">Finish Exam</button>'
         : '<button class="secondary" data-action="close">Close</button>');
   }
@@ -646,6 +668,11 @@
   modal.addEventListener('click', event => {
     const control = event.target.closest('[data-action]');
     if (!control || syncClock()) return;
+    if (control.dataset.action === 'summary-filter') {
+      openOverview(control.dataset.filter);
+      modal.querySelector('[aria-pressed="true"]').focus();
+      return;
+    }
     if (control.dataset.action === 'finish-from-summary') {
       modal.close();
       openSubmit();
