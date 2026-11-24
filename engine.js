@@ -77,26 +77,30 @@ window.practiceEngine = (() => {
       }
     }
 
-    const order = shuffled(buckets.flatMap(bucket => bucket.picked));
-    if (order.length > 1 && order.every((value, index) => value === previousOrder?.[index])) {
-      [order[0], order[1]] = [order[1], order[0]];
-    }
-    return order;
+    return shuffled(buckets.flatMap(bucket => bucket.picked));
   }
 
-  function create(exam, questions, mode, previousTestingOrder, now = Date.now()) {
-    const order = mode === 'testing' ? testingOrder(exam, questions, previousTestingOrder)
-      : questions.map((_, index) => index).sort((a, b) => questions[a].difficulty - questions[b].difficulty);
+  function create(exam, questions, mode, previousOrder, now = Date.now()) {
+    const testing = mode === 'testing';
+    let order;
+    if (testing) order = testingOrder(exam, questions, previousOrder);
+    else {
+      const indices = questions.map((_, index) => index);
+      order = mode === 'shuffled-training' ? shuffled(indices) : indices.sort((a, b) => questions[a].difficulty - questions[b].difficulty);
+    }
+    if (mode !== 'training' && order.length > 1 && order.every((value, index) => value === previousOrder?.[index])) {
+      [order[0], order[1]] = [order[1], order[0]];
+    }
     const positions = correctPositions(questions, order);
     return {
       examId: exam.id,
       mode,
-      simulation: mode === 'testing' && exam.simulation === true,
+      simulation: testing && exam.simulation === true,
       order,
       cards: order.map(index => newCard(questions[index], index, positions.get(index))),
       current: 0,
       furthest: 0,
-      deadline: mode === 'testing' ? now + exam.minutes * 60000 : null,
+      deadline: testing ? now + exam.minutes * 60000 : null,
       updated: now,
       submitted: null,
       expired: false
@@ -118,7 +122,7 @@ window.practiceEngine = (() => {
     const card = attempt.cards[attempt.current];
     const question = questions[card.questionIndex];
     const result = grade(question, card);
-    if (attempt.mode !== 'training' || card.checked || result === 'unanswered') return result;
+    if (attempt.mode === 'testing' || card.checked || result === 'unanswered') return result;
     card.checked = true;
     if (result === 'incorrect' && !card.retry) {
       const reviewIndex = Math.min(attempt.furthest + reviewGap + 1, attempt.cards.length);

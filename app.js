@@ -8,7 +8,10 @@
   const announcement = document.querySelector('#announcement');
   const header = document.querySelector('#header-context');
   const storageKey = 'java-practice-exams.v1';
-  const labels = { training: 'Training', testing: 'Testing', correct: 'Correct', incorrect: 'Incorrect', unanswered: 'Unanswered' };
+  const labels = {
+    training: 'Training', testing: 'Testing', 'shuffled-training': 'Shuffled Training',
+    correct: 'Correct', incorrect: 'Incorrect', unanswered: 'Unanswered'
+  };
   const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
   let saveAvailable = true;
   let state = load();
@@ -88,12 +91,12 @@
     if (screen === 'results' && !attempt.submitted) screen = 'take';
     if (view?.screen !== screen || view?.exam !== exam) {
       bankSelection = null;
-      if (screen === 'setup') mode = exam.testingOnly ? 'testing' : 'training';
+      if (screen === 'setup') mode = banks[exam.id]?.length ? 'training' : 'testing';
       if (screen === 'results') resultFilter = 'review';
     }
     const takingOrReviewing = screen === 'take' || screen === 'results';
     const testingPoolId = attempt?.testingPoolId ?? (exam?.id === 6 ? 'previousIts' : exam?.id);
-    const questions = takingOrReviewing && attempt.mode === 'testing' ? testingBanks[testingPoolId] : banks[exam?.id];
+    const questions = takingOrReviewing && attempt.mode !== 'training' ? testingBanks[testingPoolId] : banks[exam?.id];
     view = { screen, exam, questions, attempt };
     if (modal.open) modal.close();
     render(true);
@@ -115,6 +118,7 @@
     const rows = exams.map(exam => {
       const saved = state.attempts[exam.id];
       const count = banks[exam.id]?.length;
+      const questionCount = count ? `${count} ${exam.testingSize ? 'Training questions' : 'questions'}` : `${testingBanks[exam.id].length} in pool`;
       const status = saved ? `<span class="status-tag">${saved.submitted ? 'Completed' : 'In progress'}</span>` : '';
       return `<article class="exam-row">
         <span class="exam-number" aria-hidden="true">${exam.id}</span>
@@ -122,7 +126,7 @@
           <h3>${exam.title}</h3>
           <p>${exam.subtitle}</p>
         </div>
-        <div class="exam-meta">${exam.testingOnly ? '<span>Testing only</span>' : `<span>${count} ${exam.testingSize ? 'Training questions' : 'questions'}</span>`}${exam.testingSize ? `<span>${exam.testingSize} per test</span>` : ''}${status}</div>
+        <div class="exam-meta"><span>${questionCount}</span>${exam.testingSize ? `<span>${exam.testingSize} per test</span>` : ''}${status}</div>
         <a class="button secondary exam-action" aria-label="Open ${exam.title}" href="#exam/${exam.id}">${saved ? 'Open exam' : 'Start'}</a>
       </article>`;
     }).join('');
@@ -134,6 +138,7 @@
       <dl class="hero-modes">
         <div><dt>Training</dt><dd>Instant explanations and review of missed questions</dd></div>
         <div><dt>Testing</dt><dd>Timed attempts with feedback after submission</dd></div>
+        <div><dt>Shuffled Training</dt><dd>Untimed practice with the full question pool</dd></div>
       </dl>
     </section>
     ${storageNotice()}
@@ -145,11 +150,12 @@
 
   function renderExam() {
     const { exam, questions, attempt } = view;
-    const attemptDetails = exam.testingOnly
-      ? `<p>Testing only · ${exam.testingSize} randomly drawn from ${testingBanks[exam.id].length}</p>`
-      : exam.testingSize
-        ? `<p>Training · ${questions.length} questions</p><p>Testing · ${exam.testingSize} randomly drawn from ${testingBanks[exam.id].length}</p>`
-        : `<p>${questions.length} questions · Training only</p>`;
+    const pool = testingBanks[exam.id];
+    const trainingDetails = questions?.length
+      ? `<p>${pool ? `Training · ${questions.length} questions` : `${questions.length} questions · Training only`}</p>`
+      : '';
+    const poolDetails = pool ? `<p>Testing · ${exam.testingSize} randomly drawn from ${pool.length}</p>
+      <p>Shuffled Training · All ${pool.length} questions</p>` : '';
     let saved = '';
     if (attempt) {
       const progress = engine.progress(attempt);
@@ -166,7 +172,7 @@
       ${storageNotice()}
       <div class="start-cards ${saved ? 'has-saved' : ''}">
         <article class="surface start-card">
-          <div><h2>New attempt</h2>${attemptDetails}</div>
+          <div><h2>New attempt</h2>${trainingDetails}${poolDetails}</div>
           <a class="button primary" href="#setup/${exam.id}">New Test</a>
         </article>
         ${saved}
@@ -176,15 +182,18 @@
 
   function setupFacts() {
     const { exam, questions } = view;
-    const training = mode === 'training';
+    const training = mode !== 'testing';
     const simulation = !training && exam.simulation;
+    const pool = testingBanks[exam.id];
+    const questionCount = mode === 'training' ? questions.length : training ? pool.length : exam.testingSize;
+    const shuffledDescription = mode === 'shuffled-training' ? `Practice all ${pool.length} questions in random order. ` : '';
     return `${simulation ? '<h2 class="simulation-title">ITS Java Certification Simulation</h2>' : ''}<p class="mode-description">${training
-      ? 'Check each answer for immediate feedback. Missed questions return after about six intervening questions, or sooner near the end.'
-      : `${exam.testingSize} questions are randomly drawn from ${testingBanks[exam.id].length}. ${simulation
+      ? `${shuffledDescription}Check each answer for immediate feedback. Missed questions return after about six intervening questions, or sooner near the end.`
+      : `${exam.testingSize} questions are randomly drawn from ${pool.length}. ${simulation
         ? 'Review flagged and unanswered items in the exam summary before submitting. The timer keeps running if you leave or reload.'
         : 'Correct answers and explanations appear after submission.'}`}</p>
       <dl class="setup-facts">
-        <div><dt>Questions</dt><dd>${training ? questions.length : exam.testingSize}</dd></div>
+        <div><dt>Questions</dt><dd>${questionCount}</dd></div>
         <div><dt>Time allowed</dt><dd>${training ? 'Unlimited' : `${exam.minutes} min`}</dd></div>
         <div><dt>${training ? 'Scoring' : simulation ? 'Practice target' : 'Passing score'}</dt><dd>${training ? 'First answers' : `${engine.passMark} / 1,000`}</dd></div>
       </dl>
@@ -193,26 +202,32 @@
       <p class="small">The timer starts when you select Start Exam. Answers and explanations appear after submission.</p>` : ''}`;
   }
 
+  function startLabel() {
+    if (mode === 'shuffled-training') return 'Start Training';
+    return mode === 'testing' && view.exam.simulation ? 'Start Exam' : 'Start Test';
+  }
+
   function updateSetup() {
     document.querySelector('#setup-facts').innerHTML = setupFacts();
-    document.querySelector('[data-action="start"]').textContent = mode === 'testing' && view.exam.simulation ? 'Start Exam' : 'Start Test';
+    document.querySelector('[data-action="start"]').textContent = startLabel();
   }
 
   function renderSetup() {
-    const { exam } = view;
+    const { exam, questions } = view;
+    const modes = [];
+    if (questions?.length) modes.push('training');
+    if (testingBanks[exam.id]) modes.push('testing', 'shuffled-training');
+    const options = modes.map(value => `<option value="${value}" ${mode === value ? 'selected' : ''}>${labels[value]}</option>`).join('');
     main.innerHTML = `<div class="narrow">
       ${backLink('Exam overview', destination('exam', exam.id))}
       <div class="page-intro"><p class="eyebrow">${exam.title}</p><h1>Test setup</h1><p>${exam.subtitle}</p></div>
       <section class="surface setup-panel" aria-label="Test settings">
         <div class="setup-fields">
           <label for="language-select">Language<select id="language-select"><option>English</option></select></label>
-          ${exam.testingOnly ? '<div><span class="small muted">Mode</span><p>Testing only</p></div>' : `<label for="mode-select">Mode<select id="mode-select">
-            <option value="training" ${mode === 'training' ? 'selected' : ''}>Training</option>
-            ${exam.minutes ? `<option value="testing" ${mode === 'testing' ? 'selected' : ''}>Testing</option>` : ''}
-          </select></label>`}
+          <label for="mode-select">Mode<select id="mode-select">${options}</select></label>
         </div>
         <div id="setup-facts">${setupFacts()}</div>
-        <div class="actions right"><a class="button secondary" href="#exam/${exam.id}">Cancel</a><button class="primary" data-action="start">${exam.testingOnly ? 'Start Exam' : 'Start Test'}</button></div>
+        <div class="actions right"><a class="button secondary" href="#exam/${exam.id}">Cancel</a><button class="primary" data-action="start">${startLabel()}</button></div>
       </section>
     </div>`;
   }
@@ -321,7 +336,7 @@
     const progress = engine.progress(attempt);
     const originalNumber = attempt.order.indexOf(card.questionIndex) + 1;
     const title = card.retry ? 'Spaced review' : `Question ${originalNumber} of ${attempt.order.length}`;
-    const training = attempt.mode === 'training';
+    const training = attempt.mode !== 'testing';
     const type = question.type === 'wordBank' ? 'Word bank' : question.type === 'dropdown' ? 'Code dropdowns' : 'Multiple choice';
     const content = question.type === 'wordBank' ? wordBank(question, card) : question.type === 'dropdown' ? dropdowns(question, card)
       : `${question.code ? codeBlock(question.code) : ''}${radioOptions(question, card)}`;
@@ -390,7 +405,7 @@
   function renderResults() {
     const { exam, questions, attempt } = view;
     const result = engine.summarize(attempt, questions);
-    const training = attempt.mode === 'training';
+    const training = attempt.mode !== 'testing';
     const items = resultFilter === 'review' ? result.items.filter(item => item.result !== 'correct') : result.items;
     const details = items.map(({ index, question, card, result: status, retry, retryResult }) => {
       const retryLabel = retryResult && (retry?.skipped ? 'Skipped' : labels[retryResult]);
@@ -491,10 +506,11 @@
   }
 
   function startAttempt() {
-    const { exam } = view;
-    const questions = mode === 'testing' ? testingBanks[exam.id] : banks[exam.id];
-    const attempt = engine.create(exam, questions, mode, state.testingOrders[exam.id]);
-    if (exam.id === 6) attempt.testingPoolId = exam.id;
+    const { exam, attempt: saved } = view;
+    const questions = mode === 'training' ? banks[exam.id] : testingBanks[exam.id];
+    const previousOrder = mode === 'testing' ? state.testingOrders[exam.id] : saved?.order;
+    const attempt = engine.create(exam, questions, mode, previousOrder);
+    if (mode !== 'training') attempt.testingPoolId = exam.id;
     if (mode === 'testing') state.testingOrders[exam.id] = attempt.order;
     state.attempts[exam.id] = attempt;
     persist(attempt);
@@ -543,7 +559,7 @@
       card.response.fill(null);
       card.skipped = true;
       persist(attempt);
-    } else if (attempt.mode === 'training' && !card.checked && card.response.every(value => value !== null)) {
+    } else if (attempt.mode !== 'testing' && !card.checked && card.response.every(value => value !== null)) {
       checkAnswer();
       return;
     }
