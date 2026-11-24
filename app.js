@@ -290,7 +290,7 @@
     const question = questions[card.questionIndex];
     const progress = engine.progress(attempt);
     const originalNumber = attempt.order.indexOf(card.questionIndex) + 1;
-    const title = card.retry ? 'Spaced review' : `Question ${originalNumber} of ${questions.length}`;
+    const title = card.retry ? 'Spaced review' : `Question ${originalNumber} of ${attempt.order.length}`;
     const training = attempt.mode === 'training';
     const type = question.type === 'wordBank' ? 'Word bank' : question.type === 'dropdown' ? 'Code dropdowns' : 'Multiple choice';
     const content = question.type === 'wordBank' ? wordBank(question, card) : question.type === 'dropdown' ? dropdowns(question, card)
