@@ -82,11 +82,13 @@ window.practiceEngine = (() => {
 
   function create(exam, questions, mode, previousOrder, now = Date.now()) {
     const testing = mode === 'testing';
+    const lessonOrder = mode === 'training' && exam.lessonOrder === true;
     let order;
     if (testing) order = testingOrder(exam, questions, previousOrder);
     else {
       const indices = questions.map((_, index) => index);
-      order = mode === 'shuffled-training' ? shuffled(indices) : indices.sort((a, b) => questions[a].difficulty - questions[b].difficulty);
+      order = mode === 'shuffled-training' ? shuffled(indices) : indices;
+      if (mode === 'training' && !lessonOrder) order.sort((a, b) => questions[a].difficulty - questions[b].difficulty);
     }
     if (mode !== 'training' && order.length > 1 && order.every((value, index) => value === previousOrder?.[index])) {
       [order[0], order[1]] = [order[1], order[0]];
@@ -95,6 +97,7 @@ window.practiceEngine = (() => {
     return {
       examId: exam.id,
       mode,
+      ...(lessonOrder ? { lessonOrder } : {}),
       simulation: testing && exam.simulation === true,
       order,
       cards: order.map(index => newCard(questions[index], index, positions.get(index))),
@@ -125,7 +128,7 @@ window.practiceEngine = (() => {
     if (attempt.mode === 'testing' || card.checked || result === 'unanswered') return result;
     card.checked = true;
     if (result === 'incorrect' && !card.retry) {
-      const reviewIndex = Math.min(attempt.furthest + reviewGap + 1, attempt.cards.length);
+      const reviewIndex = attempt.lessonOrder ? attempt.cards.length : Math.min(attempt.furthest + reviewGap + 1, attempt.cards.length);
       attempt.cards.splice(reviewIndex, 0, newCard(question, card.questionIndex, undefined, true));
     }
     return result;

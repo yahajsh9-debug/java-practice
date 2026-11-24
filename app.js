@@ -187,8 +187,10 @@
     const pool = testingBanks[exam.id];
     const questionCount = mode === 'training' ? questions.length : training ? pool.length : exam.testingSize;
     const shuffledDescription = mode === 'shuffled-training' ? `Practice all ${pool.length} questions in random order. ` : '';
+    const reviewDescription = exam.lessonOrder ? 'Follow the lesson order. Missed questions return after the last lesson.'
+      : 'Missed questions return after about six intervening questions, or sooner near the end.';
     return `${simulation ? '<h2 class="simulation-title">ITS Java Certification Simulation</h2>' : ''}<p class="mode-description">${training
-      ? `${shuffledDescription}Check each answer for immediate feedback. Missed questions return after about six intervening questions, or sooner near the end.`
+      ? `${shuffledDescription}Check each answer for immediate feedback. ${reviewDescription}`
       : `${exam.testingSize} questions are randomly drawn from ${pool.length}. ${simulation
         ? 'Review flagged and unanswered items in the exam summary before submitting. The timer keeps running if you leave or reload.'
         : 'Correct answers and explanations appear after submission.'}`}</p>
@@ -329,6 +331,10 @@
     return `${String(Math.floor(seconds / 60)).padStart(2, '0')}:${String(seconds % 60).padStart(2, '0')}`;
   }
 
+  function lessonLabel(question) {
+    return question.lessonTime ? `<p class="review-label">${escapeHtml(question.topic)} · ${escapeHtml(question.lessonTime)}</p>` : '';
+  }
+
   function renderQuiz() {
     const { exam, attempt, questions } = view;
     const card = currentCard();
@@ -355,6 +361,7 @@
         <div class="question-body">
           <div class="question-meta"><span>${title}</span><span>${type}</span></div>
           ${card.retry ? `<p class="review-label">Retry of Question ${originalNumber}</p>` : ''}
+          ${lessonLabel(question)}
           <h2 tabindex="-1" id="question-title">${escapeHtml(question.prompt).replace(/\n/g, '<br>')}</h2>
           ${content}
           ${training ? trainingFeedback(question, card) : ''}
@@ -412,6 +419,7 @@
       const answerSummary = card.skipped ? '<span class="muted">Skipped</span>' : answerText(question, card.response);
       return `<article class="surface result-item"><div class="result-item-top"><span>Question ${index + 1}</span>
         <span class="status-tag ${status}">${card.skipped ? 'Skipped' : labels[status]}</span></div>
+        ${lessonLabel(question)}
         <h3>${escapeHtml(question.prompt)}</h3>
         ${question.code ? codeBlock(question.code, question.slots ? slot => `<span class="result-blank">Blank ${slot + 1}</span>` : null) : ''}
         <dl class="answer-summary"><div><dt>Your answer</dt><dd>${answerSummary}</dd></div>
