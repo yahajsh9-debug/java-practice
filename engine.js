@@ -1,6 +1,5 @@
 window.practiceEngine = (() => {
   const passMark = 700;
-  const reviewGap = 6;
 
   function shuffled(values) {
     const result = [...values];
@@ -34,10 +33,10 @@ window.practiceEngine = (() => {
     return positions;
   }
 
-  function newCard(question, questionIndex, correctPosition, retry = false) {
+  function newCard(question, questionIndex, correctPosition) {
     return {
       questionIndex,
-      retry,
+      retry: false,
       order: choicesFor(question, correctPosition),
       response: Array(question.slots?.length ?? 1).fill(null),
       checked: false,
@@ -47,8 +46,10 @@ window.practiceEngine = (() => {
   }
 
   function testingOrder(exam, questions, previousOrder) {
-    const shuffledIndices = shuffled(questions.map((_, index) => index));
-    const size = Math.min(exam.testingSize ?? questions.length, questions.length);
+    const previous = new Set(previousOrder);
+    const indices = shuffled(distinctIndices(questions));
+    const shuffledIndices = indices.filter(index => !previous.has(index)).concat(indices.filter(index => previous.has(index)));
+    const size = Math.min(exam.testingSize ?? questions.length, shuffledIndices.length);
     let buckets = [{ eligible: shuffledIndices, count: size, picked: [] }];
     if (exam.testingGroups) {
       const groups = exam.testingGroups.map((count, group) => ({
@@ -57,21 +58,32 @@ window.practiceEngine = (() => {
       if (groups.every(bucket => bucket.eligible.length >= bucket.count)) buckets = groups;
     }
 
+    const families = new Set();
+    const familyOf = index => exerciseFamily(exam, questions[index]);
+    const pick = (bucket, index) => {
+      bucket.picked.push(index);
+      families.add(familyOf(index));
+    };
     for (const format of shuffled([undefined, 'dropdown', 'wordBank'])) {
-      const bucket = shuffled(buckets).find(item => item.picked.length < item.count && item.eligible.some(index => questions[index].type === format));
-      if (bucket) bucket.picked.push(bucket.eligible.find(index => questions[index].type === format));
+      const candidates = shuffled(buckets).filter(bucket => bucket.picked.length < bucket.count).flatMap(bucket =>
+        bucket.eligible.filter(index => questions[index].type === format && !families.has(familyOf(index))).map(index => ({ bucket, index })));
+      const choice = candidates.find(({ index }) => !previous.has(index)) ?? candidates[0];
+      if (choice) pick(choice.bucket, choice.index);
     }
-    for (const bucket of buckets) {
+    for (const bucket of shuffled(buckets)) {
+      for (const index of bucket.eligible) {
+        if (bucket.picked.length >= bucket.count) break;
+        if (!families.has(familyOf(index))) pick(bucket, index);
+      }
       const remainder = bucket.eligible.filter(index => !bucket.picked.includes(index));
       bucket.picked.push(...remainder.slice(0, bucket.count - bucket.picked.length));
     }
 
-    const previous = new Set(previousOrder);
     if (previous.size === size && buckets.every(bucket => bucket.picked.every(index => previous.has(index)))) {
       for (const bucket of shuffled(buckets)) {
-        const replacement = bucket.eligible.find(index => !previous.has(index) && bucket.picked.some(picked => questions[picked].type === questions[index].type));
+        const replacement = bucket.eligible.find(index => !previous.has(index) && bucket.picked.some(picked => questions[picked].type === questions[index].type && familyOf(index) === familyOf(picked)));
         if (replacement === undefined) continue;
-        const position = bucket.picked.findIndex(index => questions[index].type === questions[replacement].type);
+        const position = bucket.picked.findIndex(index => questions[index].type === questions[replacement].type && familyOf(index) === familyOf(replacement));
         bucket.picked[position] = replacement;
         break;
       }
@@ -80,14 +92,48 @@ window.practiceEngine = (() => {
     return shuffled(buckets.flatMap(bucket => bucket.picked));
   }
 
+  function distinctIndices(questions) {
+    const seen = new Set();
+    return questions.flatMap((question, index) => {
+      const identity = JSON.stringify([question.prompt, question.code, question.choices?.slice().sort(), question.bank?.slice().sort(), question.slots?.map(slot => slot.choices?.slice().sort())]);
+      if (seen.has(identity)) return [];
+      seen.add(identity);
+      return [index];
+    });
+  }
+
+  function exerciseFamily(exam, question) {
+    return question.family ?? (exam.simulation ? question.topic : `${question.topic}:${question.explanation.replace(/-?\d+(?:[.,]\d+)*/g, '#')}`);
+  }
+
+  function shuffledPractice(exam, questions) {
+    const families = new Map();
+    for (const index of shuffled(distinctIndices(questions))) {
+      const family = exerciseFamily(exam, questions[index]);
+      if (!families.has(family)) families.set(family, []);
+      families.get(family).push(index);
+    }
+    const order = [];
+    while (families.size) {
+      const round = shuffled([...families]);
+      if (order.length && round.length > 1 && round[0][0] === exerciseFamily(exam, questions[order.at(-1)])) {
+        [round[0], round[1]] = [round[1], round[0]];
+      }
+      for (const [family, indices] of round) {
+        order.push(indices.pop());
+        if (!indices.length) families.delete(family);
+      }
+    }
+    return order;
+  }
+
   function create(exam, questions, mode, previousOrder, now = Date.now()) {
     const testing = mode === 'testing';
     const lessonOrder = mode === 'training' && exam.lessonOrder === true;
     let order;
     if (testing) order = testingOrder(exam, questions, previousOrder);
     else {
-      const indices = questions.map((_, index) => index);
-      order = mode === 'shuffled-training' ? shuffled(indices) : indices;
+      order = mode === 'shuffled-training' ? shuffledPractice(exam, questions) : distinctIndices(questions);
       if (mode === 'training' && !lessonOrder) order.sort((a, b) => questions[a].difficulty - questions[b].difficulty);
     }
     if (mode !== 'training' && order.length > 1 && order.every((value, index) => value === previousOrder?.[index])) {
@@ -127,10 +173,6 @@ window.practiceEngine = (() => {
     const result = grade(question, card);
     if (attempt.mode === 'testing' || card.checked || result === 'unanswered') return result;
     card.checked = true;
-    if (result === 'incorrect' && !card.retry) {
-      const reviewIndex = attempt.lessonOrder ? attempt.cards.length : Math.min(attempt.furthest + reviewGap + 1, attempt.cards.length);
-      attempt.cards.splice(reviewIndex, 0, newCard(question, card.questionIndex, undefined, true));
-    }
     return result;
   }
 

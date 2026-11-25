@@ -2,6 +2,7 @@
   const exams = window.practiceExams;
   const banks = window.practiceBanks;
   const testingBanks = window.practiceTestingBanks;
+  const variedTestingBanks = window.variedTestingBanks;
   const engine = window.practiceEngine;
   const main = document.querySelector('#main');
   const modal = document.querySelector('#confirmation');
@@ -101,6 +102,7 @@
 
   function questionsFor(examId, attempt) {
     if (!attempt || attempt.mode === 'training') return banks[examId];
+    if (attempt.variedPool) return variedTestingBanks[examId];
     return testingBanks[attempt.testingPoolId ?? (examId === 6 ? 'previousIts' : examId)];
   }
 
@@ -177,7 +179,7 @@
         <p class="good-luck">GOOD LUCK SA ATING LAHAT</p>
       </div>
       <dl class="hero-modes">
-        <div><dt>Training</dt><dd>Instant explanations and review of missed questions</dd></div>
+        <div><dt>Training</dt><dd>Instant explanations and a results review</dd></div>
         <div><dt>Testing</dt><dd>Timed attempts with feedback after submission</dd></div>
         <div><dt>Shuffled Training</dt><dd>Untimed practice with the full question pool</dd></div>
       </dl>
@@ -277,8 +279,8 @@
     const pool = testingBanks[exam.id];
     const questionCount = mode === 'training' ? questions.length : training ? pool.length : exam.testingSize;
     const shuffledDescription = mode === 'shuffled-training' ? `Practice all ${pool.length} questions in random order. ` : '';
-    const reviewDescription = exam.lessonOrder ? 'Follow the lesson order. Missed questions return after the last lesson.'
-      : 'Missed questions return after about six intervening questions, or sooner near the end.';
+    const reviewDescription = exam.lessonOrder ? 'Follow the lesson order and review missed questions in the results.'
+      : 'Review missed questions in the results.';
     return `${simulation ? '<h2 class="simulation-title">ITS Java Certification Simulation</h2>' : ''}<p class="mode-description">${training
       ? `${shuffledDescription}Check each answer for immediate feedback. ${reviewDescription}`
       : `${exam.testingSize} questions are randomly drawn from ${pool.length}. ${simulation
@@ -441,12 +443,10 @@
   function trainingFeedback(question, card) {
     if (!card.checked) return '';
     const grade = engine.grade(question, card);
-    const retryMessage = grade === 'incorrect' && !card.retry ? 'This question has been added to your review queue.' : '';
     return `<section class="feedback ${grade}" id="answer-feedback" tabindex="-1" aria-label="Answer feedback">
       <h3>${grade === 'correct' ? 'Correct answer' : 'Incorrect answer'}</h3>
       ${grade === 'incorrect' ? `<p><strong>Correct answer</strong> ${expected(question)}</p>` : ''}
       <p>${escapeHtml(question.explanation)}</p>
-      ${retryMessage ? `<p class="small">${retryMessage}</p>` : ''}
     </section>`;
   }
 
@@ -482,7 +482,7 @@
       ${storageNotice()}
       <div class="surface question-card">
         <div class="question-progress">
-          <div><span id="progress-label">${progressLabel(progress)}</span>${training ? ` <span class="review-count" id="retry-count">${progress.pending} reviews pending</span>` : ''}</div>
+          <div><span id="progress-label">${progressLabel(progress)}</span>${progress.reviews ? ` <span class="review-count" id="retry-count">${progress.pending} reviews pending</span>` : ''}</div>
           <progress id="exam-progress" aria-label="Answered questions" value="${progress.answered}" max="${progress.total}"></progress>
         </div>
         <div class="question-body">
@@ -657,11 +657,14 @@
 
   function startAttempt() {
     const { exam, attempt: saved } = view;
-    const questions = mode === 'training' ? banks[exam.id] : testingBanks[exam.id];
+    const questions = mode === 'training' ? banks[exam.id] : variedTestingBanks[exam.id];
     const previousOrder = mode === 'testing' ? state.testingOrders[exam.id] : saved?.order;
     const attempt = engine.create(exam, questions, mode, previousOrder);
     attempt.resultId = `${exam.id}-${Array.from(crypto.getRandomValues(new Uint32Array(2))).join('-')}`;
-    if (mode !== 'training') attempt.testingPoolId = exam.id;
+    if (mode !== 'training') {
+      attempt.testingPoolId = exam.id;
+      attempt.variedPool = true;
+    }
     if (mode === 'testing') state.testingOrders[exam.id] = attempt.order;
     state.attempts[exam.id] = attempt;
     persist(attempt);
