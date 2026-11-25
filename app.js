@@ -337,7 +337,44 @@
     }).join('');
   }
 
+  function formatJavaBlocks(code) {
+    const tokens = /"""[\s\S]*?"""|"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'|\/\/[^\n]*|\/\*[\s\S]*?\*\/|\{\{\d+\}\}|[{};]/g;
+    const blocks = [];
+    let result = '';
+    let end = 0;
+    let indentNext = '';
+
+    for (const match of code.matchAll(tokens)) {
+      const [token] = match;
+      const prefix = code.slice(end, match.index);
+      result += indentNext ? indentNext + prefix.trimStart() : prefix;
+      indentNext = '';
+      end = match.index + token.length;
+      const rest = code.slice(end);
+      const line = result.slice(result.lastIndexOf('\n') + 1);
+      if (token === '{') {
+        const parent = blocks.at(-1);
+        const initializer = /(?:=|\])\s*$/.test(result) || (parent?.initializer && /[,{]\s*$/.test(result));
+        const inline = !initializer && /^[^\S\n]*[^ \t\r\n]/.test(rest);
+        const indent = /^[ \t]*/.exec(line)[0];
+        blocks.push({ initializer, inline, indent });
+        if (inline && !/^[ \t]*}/.test(rest)) indentNext = '\n' + indent + '    ';
+      } else if (token === '}') {
+        const block = blocks.pop();
+        if (block?.inline && line.trim()) result = result.trimEnd() + '\n' + block.indent;
+        if (block?.inline && /^[ \t]+(?!(?:else|catch|finally|while)\b)[\w@]/.test(rest)) indentNext = '\n' + block.indent;
+      } else if (token === ';' && blocks.at(-1)?.inline && /^[ \t]*[^ \t\r\n}]/.test(rest)) {
+        const opening = line.indexOf('(');
+        if (opening === -1 || line.lastIndexOf(')') > opening) indentNext = '\n' + blocks.at(-1).indent + '    ';
+      }
+      result += token;
+    }
+    const tail = code.slice(end);
+    return result + (indentNext ? indentNext + tail.trimStart() : tail);
+  }
+
   function codeBlock(code, blank) {
+    code = formatJavaBlocks(code);
     const content = blank ? code.split(/\{\{(\d+)\}\}/g).map((part, index) => (
       index % 2 ? blank(Number(part)) : highlight(part)
     )).join('') : highlight(code);
