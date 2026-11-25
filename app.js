@@ -172,6 +172,7 @@
     main.innerHTML = `<section class="hero" aria-labelledby="page-title">
       <div class="hero-copy">
         <h1 id="page-title">Java Practice Exams</h1>
+        <p class="small"><strong>THIS IS NOT THE REAL TEST IN ANYWAY OR FORM, THESE ARE JUST PRACTICE TESTS FROM THE GIVEN REVIEWERS</strong></p>
         <p>Practice with multiple choice, inline code dropdowns, and draggable code fragments.</p>
         <p class="good-luck">GOOD LUCK SA ATING LAHAT</p>
       </div>
