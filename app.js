@@ -7,7 +7,8 @@
   const modal = document.querySelector('#confirmation');
   const announcement = document.querySelector('#announcement');
   const header = document.querySelector('#header-context');
-  const themeButton = document.querySelector('#theme-toggle');
+  const themeSelect = document.querySelector('#theme-select');
+  const themeColor = document.querySelector('meta[name="theme-color"]');
   const storageKey = 'java-practice-exams.v1';
   const themeKey = 'java-practice-theme';
   const systemTheme = matchMedia('(prefers-color-scheme: dark)');
@@ -145,9 +146,11 @@
   }
 
   function applyTheme() {
-    const dark = (themePreference ?? (systemTheme.matches ? 'dark' : 'light')) === 'dark';
-    document.documentElement.dataset.theme = dark ? 'dark' : 'light';
-    themeButton.textContent = dark ? 'Light mode' : 'Dark mode';
+    const saved = themePreference === 'dark' ? 'midnight' : themePreference;
+    const theme = ['light', 'charcoal', 'midnight'].includes(saved) ? saved : systemTheme.matches ? 'charcoal' : 'light';
+    document.documentElement.dataset.theme = theme;
+    themeSelect.value = theme;
+    themeColor.content = theme === 'charcoal' ? '#101010' : '#142b34';
   }
 
   function renderHome() {
@@ -832,8 +835,8 @@
     themePreference = localStorage.getItem(themeKey);
   } catch {}
   applyTheme();
-  themeButton.addEventListener('click', () => {
-    themePreference = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+  themeSelect.addEventListener('change', () => {
+    themePreference = themeSelect.value;
     applyTheme();
     try {
       localStorage.setItem(themeKey, themePreference);
