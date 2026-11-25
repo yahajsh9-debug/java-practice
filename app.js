@@ -7,7 +7,10 @@
   const modal = document.querySelector('#confirmation');
   const announcement = document.querySelector('#announcement');
   const header = document.querySelector('#header-context');
+  const themeButton = document.querySelector('#theme-toggle');
   const storageKey = 'java-practice-exams.v1';
+  const themeKey = 'java-practice-theme';
+  const systemTheme = matchMedia('(prefers-color-scheme: dark)');
   const labels = {
     training: 'Training', testing: 'Testing', 'shuffled-training': 'Shuffled Training',
     correct: 'Correct', incorrect: 'Incorrect', unanswered: 'Unanswered'
@@ -19,6 +22,14 @@
   let mode = 'training';
   let bankSelection = null;
   let resultFilter = 'review';
+  let historySort = 'newest';
+  let themePreference;
+
+  function rememberResult(saved, attempt) {
+    if (!attempt.submitted) return;
+    attempt.resultId ??= `${attempt.examId}-${attempt.submitted}`;
+    saved.history[attempt.resultId] ??= attempt;
+  }
 
   function load() {
     try {
@@ -29,18 +40,30 @@
           saved.attempts[6] = { ...previousSimulation, examId: 6, testingPoolId: 4 };
           delete saved.attempts[4];
         }
+        saved.history ??= {};
+        for (const attempt of Object.values(saved.attempts)) rememberResult(saved, attempt);
         return saved;
       }
     } catch (error) {
       if (!(error instanceof SyntaxError)) saveAvailable = false;
     }
-    return { attempts: {}, testingOrders: {} };
+    return { attempts: {}, testingOrders: {}, history: {} };
   }
 
   function persist(attempt) {
-    if (attempt) attempt.updated = Date.now();
+    attempt.updated = Date.now();
+    rememberResult(state, attempt);
     try {
-      localStorage.setItem(storageKey, JSON.stringify(state));
+      const stored = load();
+      const next = {
+        attempts: { ...stored.attempts, [attempt.examId]: attempt },
+        testingOrders: { ...stored.testingOrders },
+        history: { ...state.history, ...stored.history }
+      };
+      if (state.testingOrders[attempt.examId]) next.testingOrders[attempt.examId] = state.testingOrders[attempt.examId];
+      localStorage.setItem(storageKey, JSON.stringify(next));
+      state = next;
+      saveAvailable = true;
     } catch {
       if (saveAvailable) announce('Progress is available in this tab. Browser storage is unavailable.');
       saveAvailable = false;
@@ -55,12 +78,12 @@
     announcement.textContent = message;
   }
 
-  function destination(screen, id) {
-    return `#${screen}${id ? `/${id}` : ''}`;
+  function destination(screen, id, resultId) {
+    return `#${screen}${id ? `/${id}` : ''}${resultId ? `/${resultId}` : ''}`;
   }
 
-  function navigate(screen, id) {
-    const hash = destination(screen, id);
+  function navigate(screen, id, resultId) {
+    const hash = destination(screen, id, resultId);
     if (location.hash === hash) readRoute();
     else location.hash = hash;
   }
@@ -75,28 +98,35 @@
     return false;
   }
 
+  function questionsFor(examId, attempt) {
+    if (!attempt || attempt.mode === 'training') return banks[examId];
+    return testingBanks[attempt.testingPoolId ?? (examId === 6 ? 'previousIts' : examId)];
+  }
+
   function readRoute() {
     if (location.hash === '#main') return;
-    const [, name, idText] = /^#(exam|setup|take|results)\/(\d+)$/.exec(location.hash) ?? [];
+    const [, name, idText, resultId] = /^#(exam|setup|take|results)\/(\d+)(?:\/([\w-]+))?$/.exec(location.hash) ?? [];
     const exam = exams.find(item => item.id === Number(idText));
     for (const saved of Object.values(state.attempts)) expire(saved);
-    let screen = exam ? name : 'home';
-    const attempt = state.attempts[exam?.id];
-    if (exam?.id === 4 && !attempt && state.attempts[6]?.testingPoolId === 4 && (screen === 'take' || screen === 'results')) {
+    let screen = exam ? name : location.hash === '#history' ? 'history' : 'home';
+    let attempt = state.attempts[exam?.id];
+    if (screen === 'results' && resultId) {
+      const archived = state.history[resultId];
+      attempt = archived?.examId === exam.id ? archived : undefined;
+    }
+    if (!resultId && exam?.id === 4 && !attempt && state.attempts[6]?.testingPoolId === 4 && (screen === 'take' || screen === 'results')) {
       location.replace(destination(screen, 6));
       return;
     }
     if ((screen === 'take' || screen === 'results') && !attempt) screen = 'exam';
     if (screen === 'take' && attempt.submitted) screen = 'results';
     if (screen === 'results' && !attempt.submitted) screen = 'take';
-    if (view?.screen !== screen || view?.exam !== exam) {
+    if (view?.screen !== screen || view?.exam !== exam || view?.attempt !== attempt) {
       bankSelection = null;
       if (screen === 'setup') mode = banks[exam.id]?.length ? 'training' : 'testing';
       if (screen === 'results') resultFilter = 'review';
     }
-    const takingOrReviewing = screen === 'take' || screen === 'results';
-    const testingPoolId = attempt?.testingPoolId ?? (exam?.id === 6 ? 'previousIts' : exam?.id);
-    const questions = takingOrReviewing && attempt.mode !== 'training' ? testingBanks[testingPoolId] : banks[exam?.id];
+    const questions = questionsFor(exam?.id, screen === 'take' || screen === 'results' ? attempt : null);
     view = { screen, exam, questions, attempt };
     if (modal.open) modal.close();
     render(true);
@@ -112,6 +142,12 @@
 
   function timestamp(value) {
     return new Intl.DateTimeFormat(undefined, { dateStyle: 'medium', timeStyle: 'short' }).format(value);
+  }
+
+  function applyTheme() {
+    const dark = (themePreference ?? (systemTheme.matches ? 'dark' : 'light')) === 'dark';
+    document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+    themeButton.textContent = dark ? 'Light mode' : 'Dark mode';
   }
 
   function renderHome() {
@@ -134,6 +170,7 @@
       <div class="hero-copy">
         <h1 id="page-title">Java Practice Exams</h1>
         <p>Practice with multiple choice, inline code dropdowns, and draggable code fragments.</p>
+        <p class="good-luck">GOOD LUCK SA ATING LAHAT</p>
       </div>
       <dl class="hero-modes">
         <div><dt>Training</dt><dd>Instant explanations and review of missed questions</dd></div>
@@ -143,9 +180,13 @@
     </section>
     ${storageNotice()}
     <section class="exam-list" aria-labelledby="exam-list-title">
-      <h2 id="exam-list-title">Choose an exam</h2>
+      <div class="list-heading"><h2 id="exam-list-title">Choose an exam</h2><a class="button secondary" href="#history">Results History</a></div>
       ${rows}
-    </section>`;
+    </section>
+    <div class="actions right">
+      <p class="small muted" id="records-status" role="status"></p>
+      <button class="secondary" type="button" data-action="clear-records">Clear Local Records</button>
+    </div>`;
   }
 
   function renderExam() {
@@ -157,26 +198,71 @@
     const poolDetails = pool ? `<p>Testing · ${exam.testingSize} randomly drawn from ${pool.length}</p>
       <p>Shuffled Training · All ${pool.length} questions</p>` : '';
     let saved = '';
-    if (attempt) {
+    if (attempt && !attempt.submitted) {
       const progress = engine.progress(attempt);
-      const details = attempt.submitted ? `Completed ${timestamp(attempt.submitted)}` : `Last saved ${timestamp(attempt.updated)}`;
       saved = `<article class="surface start-card">
-        <div><h2>${attempt.submitted ? 'Last result' : 'Saved attempt'}</h2><p>${details}</p></div>
+        <div><h2>Saved attempt</h2><p>Last saved ${timestamp(attempt.updated)}</p></div>
         <dl class="quick-facts"><div><dt>Mode</dt><dd>${labels[attempt.mode]}</dd></div><div><dt>Progress</dt><dd>${progress.answered} / ${progress.total} answered</dd></div></dl>
-        <a class="button primary" href="${destination(attempt.submitted ? 'results' : 'take', exam.id)}">${attempt.submitted ? 'View Results' : 'Resume Test'}</a>
+        <a class="button primary" href="${destination('take', exam.id)}">Resume Test</a>
       </article>`;
     }
     main.innerHTML = `<div class="narrow">
       ${backLink('All exams')}
       <div class="page-intro"><p class="eyebrow">${exam.subtitle}</p><h1>${exam.title}</h1><p>${exam.detail}</p></div>
       ${storageNotice()}
-      <div class="start-cards ${saved ? 'has-saved' : ''}">
+      <div class="start-cards">
         <article class="surface start-card">
           <div><h2>New attempt</h2>${trainingDetails}${poolDetails}</div>
           <a class="button primary" href="#setup/${exam.id}">New Test</a>
         </article>
         ${saved}
       </div>
+      <section class="exam-history" aria-labelledby="exam-history-title">
+        <div class="list-heading"><h2 id="exam-history-title">Results history</h2>${historySortControl()}</div>
+        <div id="history-rows">${historyRows(exam)}</div>
+      </section>
+    </div>`;
+  }
+
+  function historySortControl() {
+    const sorts = { newest: 'Newest first', oldest: 'Oldest first', highest: 'Highest score', lowest: 'Lowest score' };
+    return `<div class="history-sort"><label for="history-sort">Sort by</label>
+      <select id="history-sort">${Object.entries(sorts).map(([value, label]) => `<option value="${value}" ${value === historySort ? 'selected' : ''}>${label}</option>`).join('')}</select>
+    </div>`;
+  }
+
+  function historyRows(exam) {
+    const entries = Object.values(state.history).filter(attempt => !exam || attempt.examId === exam.id).map(attempt => ({
+      attempt,
+      result: engine.summarize(attempt, questionsFor(attempt.examId, attempt))
+    }));
+    entries.sort((a, b) => {
+      const byDate = b.attempt.submitted - a.attempt.submitted;
+      if (historySort === 'oldest') return -byDate;
+      if (historySort === 'highest') return b.result.score - a.result.score || byDate;
+      if (historySort === 'lowest') return a.result.score - b.result.score || byDate;
+      return byDate;
+    });
+    return entries.map(({ attempt, result }) => {
+      const name = exams.find(item => item.id === attempt.examId).title;
+      const mode = labels[attempt.mode];
+      const date = timestamp(attempt.submitted);
+      return `<article class="surface history-row">
+        <div class="history-entry"><h3>${exam ? mode : name}</h3>
+          <p>${exam ? '' : `${mode} · `}<time datetime="${new Date(attempt.submitted).toISOString()}">${date}</time></p></div>
+        <div class="history-score"><strong>${result.score}</strong> <span>/ 1,000</span><small>${result.correct} of ${result.items.length} correct</small></div>
+        <a class="button secondary" aria-label="View result for ${escapeHtml(name)}, ${escapeHtml(date)}, score ${result.score}" href="${destination('results', attempt.examId, attempt.resultId)}">View Results</a>
+      </article>`;
+    }).join('') || '<p class="surface empty-result">No completed tests yet.</p>';
+  }
+
+  function renderHistory() {
+    main.innerHTML = `<div class="narrow">
+      ${backLink('All exams')}
+      <div class="page-intro"><h1>Results history</h1></div>
+      ${storageNotice()}
+      <div class="list-heading history-controls">${historySortControl()}</div>
+      <div id="history-rows">${historyRows()}</div>
     </div>`;
   }
 
@@ -428,8 +514,9 @@
         <p>${escapeHtml(question.explanation)}</p></article>`;
     }).join('');
     main.innerHTML = `<div class="narrow results">
-      ${backLink('Exam overview', destination('exam', exam.id))}
+      <div class="result-links">${backLink('Exam overview', destination('exam', exam.id))}${backLink('All results', '#history')}</div>
       <div class="page-intro"><p class="eyebrow">${exam.title} · ${attempt.simulation ? 'ITS Java Simulation' : labels[attempt.mode]}</p><h1>Exam results</h1>
+      <p>Completed ${timestamp(attempt.submitted)}</p>
       ${attempt.expired ? '<p>Time expired and your answers were submitted.</p>' : ''}</div>
       <section class="surface result-summary" aria-label="Score summary">
         <div class="score"><span>${training ? 'First-pass score' : attempt.simulation ? 'Practice score' : 'Score'}</span><strong>${result.score}<small> / 1,000</small></strong>
@@ -465,6 +552,7 @@
   function render(focus = false) {
     header.hidden = view.screen !== 'take' || view.attempt.simulation;
     if (view.screen === 'home') renderHome();
+    if (view.screen === 'history') renderHistory();
     if (view.screen === 'exam') renderExam();
     if (view.screen === 'setup') renderSetup();
     if (view.screen === 'take') renderQuiz();
@@ -478,6 +566,19 @@
   function dialog(title, content, controls) {
     modal.innerHTML = `<h2 id="confirmation-title">${title}</h2>${content}<div class="actions right">${controls}</div>`;
     if (!modal.open) modal.showModal();
+  }
+
+  function clearRecords() {
+    try {
+      localStorage.removeItem(storageKey);
+    } catch {
+      document.querySelector('#records-status').textContent = 'Could not clear local records. Try again.';
+      return;
+    }
+    state = load();
+    renderHome();
+    main.querySelector('[data-action="clear-records"]').focus({ preventScroll: true });
+    document.querySelector('#records-status').textContent = 'Local records cleared.';
   }
 
   function openOverview(filter = 'all') {
@@ -518,6 +619,7 @@
     const questions = mode === 'training' ? banks[exam.id] : testingBanks[exam.id];
     const previousOrder = mode === 'testing' ? state.testingOrders[exam.id] : saved?.order;
     const attempt = engine.create(exam, questions, mode, previousOrder);
+    attempt.resultId = `${exam.id}-${Array.from(crypto.getRandomValues(new Uint32Array(2))).join('-')}`;
     if (mode !== 'training') attempt.testingPoolId = exam.id;
     if (mode === 'testing') state.testingOrders[exam.id] = attempt.order;
     state.attempts[exam.id] = attempt;
@@ -526,10 +628,11 @@
   }
 
   function submitAttempt() {
-    if (view.attempt.submitted) return;
-    view.attempt.submitted = Date.now();
-    persist(view.attempt);
-    navigate('results', view.exam.id);
+    const { attempt } = view;
+    if (attempt.submitted) return;
+    attempt.submitted = Date.now();
+    persist(attempt);
+    navigate('results', attempt.examId, attempt.resultId);
   }
 
   function move(index) {
@@ -598,7 +701,7 @@
     const attempt = view?.attempt;
     if (view?.screen !== 'take' || attempt.mode !== 'testing') return false;
     if (expire(attempt) || attempt.submitted) {
-      navigate('results', view.exam.id);
+      navigate('results', attempt.examId, attempt.resultId);
       return true;
     }
     const timer = document.querySelector('#timer');
@@ -614,6 +717,11 @@
     const control = event.target.closest('[data-action]');
     if (!control || syncClock()) return;
     switch (control.dataset.action) {
+      case 'clear-records':
+        dialog('Clear all local records?',
+          '<p>This deletes all saved scores, answers, and in-progress attempts for every exam in this browser. You can’t undo it.</p>',
+          '<button class="secondary" data-action="close">Cancel</button><button class="danger" data-action="confirm-clear-records">Clear Records</button>');
+        break;
       case 'start':
         if (view.attempt && !view.attempt.submitted) {
           dialog('Replace saved attempt?', '<p>Starting a new test replaces this exam’s saved progress.</p>',
@@ -659,6 +767,9 @@
     if (control.id === 'mode-select') {
       mode = control.value;
       updateSetup();
+    } else if (control.id === 'history-sort') {
+      historySort = control.value;
+      document.querySelector('#history-rows').innerHTML = historyRows(view.exam);
     } else if (control.name === 'answer') setAnswer(0, Number(control.value));
     else if (control.classList.contains('code-select')) setAnswer(Number(control.dataset.slot), control.value === '' ? null : Number(control.value));
   });
@@ -705,6 +816,7 @@
       return;
     }
     modal.close();
+    if (control.dataset.action === 'confirm-clear-records') clearRecords();
     if (control.dataset.action === 'confirm-submit') submitAttempt();
     if (control.dataset.action === 'replace') startAttempt();
     if (control.dataset.action === 'jump') move(Number(control.dataset.index));
@@ -716,7 +828,34 @@
     navigate('exam', view.exam.id);
   });
 
+  try {
+    themePreference = localStorage.getItem(themeKey);
+  } catch {}
+  applyTheme();
+  themeButton.addEventListener('click', () => {
+    themePreference = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+    applyTheme();
+    try {
+      localStorage.setItem(themeKey, themePreference);
+    } catch {}
+  });
+  systemTheme.addEventListener('change', applyTheme);
   window.addEventListener('hashchange', readRoute);
+  window.addEventListener('storage', event => {
+    if (event.storageArea !== localStorage) return;
+    if (event.key === themeKey) {
+      themePreference = event.newValue;
+      applyTheme();
+    } else if (event.key === storageKey && event.newValue === null) {
+      state = load();
+      navigate('home');
+      announce('Local records were cleared in another tab.');
+    } else if (event.key === storageKey) {
+      state.history = load().history;
+      const rows = document.querySelector('#history-rows');
+      if (rows) rows.innerHTML = historyRows(view.exam);
+    }
+  });
   document.addEventListener('visibilitychange', syncClock);
   window.setInterval(syncClock, 500);
   readRoute();
