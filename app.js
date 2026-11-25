@@ -3,6 +3,7 @@
   const banks = window.practiceBanks;
   const testingBanks = window.practiceTestingBanks;
   const variedTestingBanks = window.variedTestingBanks;
+  const auditedBanks = window.auditedQuestionBanks;
   const engine = window.practiceEngine;
   const main = document.querySelector('#main');
   const modal = document.querySelector('#confirmation');
@@ -101,6 +102,9 @@
   }
 
   function questionsFor(examId, attempt) {
+    if (attempt?.auditedPool) {
+      return attempt.mode === 'training' ? auditedBanks.training[examId] ?? banks[examId] : auditedBanks.testing[examId];
+    }
     if (!attempt || attempt.mode === 'training') return banks[examId];
     if (attempt.variedPool) return variedTestingBanks[examId];
     return testingBanks[attempt.testingPoolId ?? (examId === 6 ? 'previousIts' : examId)];
@@ -657,14 +661,12 @@
 
   function startAttempt() {
     const { exam, attempt: saved } = view;
-    const questions = mode === 'training' ? banks[exam.id] : variedTestingBanks[exam.id];
+    const questions = questionsFor(exam.id, { mode, auditedPool: true });
     const previousOrder = mode === 'testing' ? state.testingOrders[exam.id] : saved?.order;
     const attempt = engine.create(exam, questions, mode, previousOrder);
     attempt.resultId = `${exam.id}-${Array.from(crypto.getRandomValues(new Uint32Array(2))).join('-')}`;
-    if (mode !== 'training') {
-      attempt.testingPoolId = exam.id;
-      attempt.variedPool = true;
-    }
+    attempt.auditedPool = true;
+    if (mode !== 'training') attempt.testingPoolId = exam.id;
     if (mode === 'testing') state.testingOrders[exam.id] = attempt.order;
     state.attempts[exam.id] = attempt;
     persist(attempt);
